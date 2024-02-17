@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>md_gen example</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #cccccc; background-color: #303030; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ffcfaf; } /* Alert */
+    code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+    code span.at { } /* Attribute */
+    code span.bn { color: #dca3a3; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #f0dfaf; } /* ControlFlow */
+    code span.ch { color: #dca3a3; } /* Char */
+    code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+    code span.co { color: #7f9f7f; } /* Comment */
+    code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+    code span.do { color: #7f9f7f; } /* Documentation */
+    code span.dt { color: #dfdfbf; } /* DataType */
+    code span.dv { color: #dcdccc; } /* DecVal */
+    code span.er { color: #c3bf9f; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #c0bed1; } /* Float */
+    code span.fu { color: #efef8f; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+    code span.kw { color: #f0dfaf; } /* Keyword */
+    code span.op { color: #f0efd0; } /* Operator */
+    code span.ot { color: #efef8f; } /* Other */
+    code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+    code span.sc { color: #dca3a3; } /* SpecialChar */
+    code span.ss { color: #cc9393; } /* SpecialString */
+    code span.st { color: #cc9393; } /* String */
+    code span.va { } /* Variable */
+    code span.vs { color: #cc9393; } /* VerbatimString */
+    code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+    body {
+        margin: 0 auto;
+        max-width: none;
+        width: 1000px;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        hyphens: auto;
+        overflow-wrap: break-word;
+        text-rendering: optimizeLegibility;
+        font-kerning: normal;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 2px solid black;
+    }
+
+    header {
+        margin-bottom: 4em;
+        text-align: center;
+        color: white;
+        background-color: lightblue;
+    }
+
+    h1:not(:first-of-type) {
+        page-break-before: always;
+    }
+
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">md_gen example</h1>
+<p class="author">autor:ichiro_mariners</p>
+</header>
+<h1 id="インデックス">インデックス</h1>
+<p>  1 <a href="#SS_1">イントロダクション</a></p>
+<p>  2 <a href="#SS_2">外部ファイルの参照</a><br />
+   2.1 <a
+href="#SS_2_1">外部ファイルの一部抜粋(インデントの変更なし)</a><br />
+   2.2 <a
+href="#SS_2_2">外部ファイルの一部抜粋(インデントを左1シフト)</a><br />
+   2.3 <a
+href="#SS_2_3">外部ファイルの一部抜粋(不要コードの削除)</a><br />
+   2.4 <a
+href="#SS_2_4">外部ファイルの一部の連続抜粋(不要コードを「…」に変換)</a><br />
+   2.5 <a
+href="#SS_2_5">外部ファイルの一部の再抜粋(改行コード1追加)</a><br />
+   2.6 <a
+href="#SS_2_6">外部ファイルの一部の再抜粋(インデントを左1シフト、改行コード1追加)</a></p>
+<p>  3 <a href="#SS_3">リンク</a><br />
+   3.1 <a href="#SS_3_1">markdownファイルへのリンク</a><br />
+   3.2 <a href="#SS_3_2">外部ファイルの参照</a><br />
+   3.3 <a href="#SS_3_3">pngファイルへのリンク</a><br />
+   3.4 <a href="#SS_3_4">ファイルの生成</a><br />
+    3.4.1 <a href="#SS_3_4_1">sample_code.mdの生成</a> <a
+href="---">リンク|外部ファイルの参照</a>で述べたsample_code.md …<br />
+    3.4.2 <a href="#SS_3_4_2">index.mdの生成</a>
+cmd/md_make_db.pyが生成したjsonファイルをcmd/md_join.py …</p>
+<p>  4 <a href="#SS_4">Sample Code</a><br />
+   4.1 <a href="#SS_4_1">C++</a></p>
+<!-- md/intro.md -->
+<h1 id="イントロダクション">1 イントロダクション <a id="SS_1"></a></h1>
+<p>この例ではmd_genの使い方について説明する。</p>
+<p>実際にmd_genを使用してドキュメントを生成するのであれば、
+このexample/ディレクトリ配下のファイルを元にすればよい。
+その場合、md/oやo/の配下にあるファイルはMakefileによるビルド生成物であるため、
+バージョン管理システムには登録しない方が良いだろう。</p>
+<!-- md/ref.md -->
+<h1 id="外部ファイルの参照">2 外部ファイルの参照 <a id="SS_2"></a></h1>
+<p>外部ファイルの参照やその加工について説明する。</p>
+<h2 id="外部ファイルの一部抜粋インデントの変更なし">2.1
+外部ファイルの一部抜粋(インデントの変更なし) <a id="SS_2_1"></a></h2>
+<p>markdownファイル内に下記のように書くことで</p>
+<pre><code>    @@@ code/example_code.cpp #0:0 begin  </code></pre>
+<p>下記のように外部ファイルの一部をmarkdownドキュメント内に埋め込むことができる
+(ただし、この記述の直前には正規表現で表すと[^@
+]+となる文字列が必要)。</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @@@ code/example_code.cpp 3</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> Polymorphic_Base <span class="op">{</span>  <span class="co">// ポリモーフィックな基底クラス</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span><span class="op">:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">virtual</span> <span class="op">~</span>Polymorphic_Base<span class="op">()</span> <span class="op">=</span> <span class="cf">default</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> Polymorphic_Derived <span class="op">:</span> <span class="kw">public</span> Polymorphic_Base <span class="op">{</span>  <span class="co">// ポリモーフィックな派生クラス</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span></code></pre></div>
+<p>この作用については、</p>
+<ul>
+<li>md/ref.md(オリジナルのファイル)</li>
+<li>md/o/ref.md(cmd/md_compile.pyにより変更されたファイル)</li>
+<li>o/ref.md(cmd/md_compile.pyにより変更されたファイル)</li>
+<li>code/example_code.cpp(一部を抜粋されたファイル)</li>
+</ul>
+<p>上記のファイルを見ることで理解できる。</p>
+<h2 id="外部ファイルの一部抜粋インデントを左1シフト">2.2
+外部ファイルの一部抜粋(インデントを左1シフト) <a id="SS_2_2"></a></h2>
+<p>markdownファイル内に下記のように書くことで</p>
+<pre><code>    @@@ code/example_code.cpp #0:1 begin -1</code></pre>
+<p>下記のように外部ファイルの一部を左1シフトしてmarkdownドキュメント内に埋め込むことができる。</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @@@ code/example_code.cpp 17</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    Polymorphic_Base    b<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    Polymorphic_Derived d<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    Polymorphic_Base<span class="op">&amp;</span> b_ref_d <span class="op">=</span> d<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    Polymorphic_Base<span class="op">&amp;</span> b_ref_b <span class="op">=</span> b<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// std::type_infoの比較</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    ASSERT_EQ<span class="op">(</span><span class="kw">typeid</span><span class="op">(</span>b_ref_d<span class="op">),</span> <span class="kw">typeid</span><span class="op">(</span>d<span class="op">));</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    ASSERT_EQ<span class="op">(</span><span class="kw">typeid</span><span class="op">(</span>b_ref_b<span class="op">),</span> <span class="kw">typeid</span><span class="op">(</span>b<span class="op">));</span></span></code></pre></div>
+<h2 id="外部ファイルの一部抜粋不要コードの削除">2.3
+外部ファイルの一部抜粋(不要コードの削除) <a id="SS_2_3"></a></h2>
+<p>markdownファイル内に下記のように書くことで</p>
+<pre><code>    @@@ code/example_code.cpp #0:2 begin -1</code></pre>
+<p>下記のように外部ファイルの一部を左1シフトしてmarkdownドキュメント内に埋め込むことができる。</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @@@ code/example_code.cpp 29</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ポインタへのdynamic_cast</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    Polymorphic_Derived<span class="op">*</span> d_ptr <span class="op">=</span> <span class="kw">dynamic_cast</span><span class="op">&lt;</span>Polymorphic_Derived<span class="op">*&gt;(&amp;</span>b_ref_d<span class="op">);</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    ASSERT_EQ<span class="op">(</span>d_ptr<span class="op">,</span> <span class="op">&amp;</span>d<span class="op">);</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    Polymorphic_Derived<span class="op">*</span> d_ptr2 <span class="op">=</span> <span class="kw">dynamic_cast</span><span class="op">&lt;</span>Polymorphic_Derived<span class="op">*&gt;(&amp;</span>b_ref_b<span class="op">);</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    ASSERT_EQ<span class="op">(</span>d_ptr2<span class="op">,</span> <span class="kw">nullptr</span><span class="op">);</span>  <span class="co">// キャストできない場合、nullptrが返る</span></span></code></pre></div>
+<p>抜粋したファイルには、不要コードを削除している。
+削除の仕組みは、code/example_code.cppを参照すればわかる。</p>
+<h2 id="外部ファイルの一部の連続抜粋不要コードをに変換">2.4
+外部ファイルの一部の連続抜粋(不要コードを「…」に変換)
+<a id="SS_2_4"></a></h2>
+<p>markdownファイル内に外部ファイルを抜粋するための記述を連続して行うことで、</p>
+<pre><code>// @@@ code/example_code.cpp 行数</code></pre>
+<p>のような不要な行がコード内に挿入されないようにできる。</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @@@ code/example_code.cpp 54</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> FUNC<span class="op">&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> ScopedGuard <span class="op">{</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span><span class="op">:</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">explicit</span> ScopedGuard<span class="op">(</span>FUNC f<span class="op">)</span> <span class="op">:</span> <span class="va">f_</span><span class="op">(</span>f<span class="op">)</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>            <span class="co">// f()がill-formedにならず、その戻りがvoidでなければならない</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>            <span class="kw">static_assert</span><span class="op">(</span><span class="bu">std::</span>is_same<span class="op">&lt;</span><span class="kw">decltype</span><span class="op">(</span>f<span class="op">()),</span> <span class="dt">void</span><span class="op">&gt;::</span>value<span class="op">,</span> <span class="st">&quot;f() must return void&quot;</span><span class="op">);</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">~</span>ScopedGuard<span class="op">()</span> <span class="op">{</span> <span class="va">f_</span><span class="op">();</span> <span class="op">}</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">...</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span><span class="op">:</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        FUNC <span class="va">f_</span><span class="op">;</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span></code></pre></div>
+<h2 id="外部ファイルの一部の再抜粋改行コード1追加">2.5
+外部ファイルの一部の再抜粋(改行コード1追加) <a id="SS_2_5"></a></h2>
+<p>前機能は、再抜粋のためのものであるが、その場合</p>
+<pre><code>// @@@ code/example_code.cpp 行数</code></pre>
+<p>の行の後に改行したい場合がある。これに対処するためには、</p>
+<pre><code>    @@@ code/example_code.cpp #2:1 begin 0 1</code></pre>
+<p>のように書く。</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @@@ code/example_code.cpp 62</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>            <span class="co">// f()がill-formedにならず、その戻りがvoidでなければならない</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>            <span class="kw">static_assert</span><span class="op">(</span><span class="bu">std::</span>is_same<span class="op">&lt;</span><span class="kw">decltype</span><span class="op">(</span>f<span class="op">()),</span> <span class="dt">void</span><span class="op">&gt;::</span>value<span class="op">,</span> <span class="st">&quot;f() must return void&quot;</span><span class="op">);</span></span></code></pre></div>
+<h2
+id="外部ファイルの一部の再抜粋インデントを左1シフト改行コード1追加">2.6
+外部ファイルの一部の再抜粋(インデントを左1シフト、改行コード1追加)
+<a id="SS_2_6"></a></h2>
+<p>上記例のように、インデントが不自然になる場合、</p>
+<pre><code>    @@@ code/example_code.cpp #2:1 begin -2 1</code></pre>
+<p>のように書く。</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @@@ code/example_code.cpp 62</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// f()がill-formedにならず、その戻りがvoidでなければならない</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">static_assert</span><span class="op">(</span><span class="bu">std::</span>is_same<span class="op">&lt;</span><span class="kw">decltype</span><span class="op">(</span>f<span class="op">()),</span> <span class="dt">void</span><span class="op">&gt;::</span>value<span class="op">,</span> <span class="st">&quot;f() must return void&quot;</span><span class="op">);</span></span></code></pre></div>
+<!-- md/link.md -->
+<h1 id="リンク">3 リンク <a id="SS_3"></a></h1>
+<p>このファイルではリンクについて説明する。</p>
+<h2 id="markdownファイルへのリンク">3.1 markdownファイルへのリンク
+<a id="SS_3_1"></a></h2>
+<p>一連のmarkdownファイル内の見出しにジャンプするためのリンクを張りたい場合、</p>
+<pre><code>    [見出し](---)  </code></pre>
+<p>のように書く。例えば、</p>
+<pre><code>    [外部ファイルの一部抜粋(インデントの変更なし)](---)</code></pre>
+<p>と書けば、「<a
+href="#SS_2_1">外部ファイルの一部抜粋(インデントの変更なし)</a>」へジャンプできるようになる。</p>
+<p>同じ文字列の見出しXXXが複数個ある場合、</p>
+<pre><code>    [SEC1|SEC1.1|XXX](---)  </code></pre>
+<p>と書くか、XXXが#一つの見出しであった場合、</p>
+<pre><code>    [|XXX](---)  </code></pre>
+<p>と書くことで一意のXXXを指定できる。</p>
+<p>上記ののリンクを解決するためには、cmd/md_make_db.pyを使用し、
+すべてのmdファイルから注した見出しをオブジェクトにしたjsonファイルをを生成する必要がある。</p>
+<h2 id="外部ファイルの参照-1">3.2 外部ファイルの参照
+<a id="SS_3_2"></a></h2>
+<p>code/example_code.cpp全体を参照したい場合、</p>
+<pre><code>    &quot;[code/example_code.cpp](---)&quot;</code></pre>
+<p>ように書く。これにより、code/example_code.cppの全体がsample_code.mdに引用され、
+見出し「“<a
+href="#SS_4_1_1">code/example_code.cpp</a>”」が作ら、上記にそこへのリンクが張られる。</p>
+<h2 id="pngファイルへのリンク">3.3 pngファイルへのリンク
+<a id="SS_3_3"></a></h2>
+<p>pngファイルをmarkdownドキュメントに取り込みたい場合、</p>
+<pre><code>    ![xxx](plant_uml/example.png)  </code></pre>
+<p>のように書く。これにより、以下のようにpngを取り込むことができる。</p>
+<p>
+<img src="data:image/png;base64,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" />
+</p>
+<p>これはmarkdownの機能であるが、</p>
+<ul>
+<li>cmd/md_compile.py
+-Dが、このmdファイルのplant_uml/example.pngへの依存を、
+plant_uml/example.puへの依存とする</li>
+<li>Makefileでpuからpngの生成方法を記述する</li>
+</ul>
+<p>ことで自動的にpuファイルからpngファイルの生成できる。
+また、cmd/md_compile.pyがpngファイルをbase64にエンコードすることで、
+markdownドキュメント内に画像ファイルを埋め込む。</p>
+<h2 id="ファイルの生成">3.4 ファイルの生成 <a id="SS_3_4"></a></h2>
+<h3 id="sample_code.mdの生成">3.4.1 sample_code.mdの生成
+<a id="SS_3_4_1"></a></h3>
+<p><a href="#SS_3_2">外部ファイルの参照</a>で述べたsample_code.mdは、
+cmd/md_sample_section.pyにより生成される。</p>
+<h3 id="index.mdの生成">3.4.2 index.mdの生成 <a id="SS_3_4_2"></a></h3>
+<p>cmd/md_make_db.pyが生成したjsonファイルをcmd/md_join.pyに渡すことで、
+mdファイルの見出しのインデックスindex.mdを作ることができる。</p>
+<p>index.mdに一部の見出しを載せたくない場合(例えば、同じような見出しの羅列)、
+md_make_index.pyに–excludeを指定する。例えば、</p>
+<pre><code>    --exclude sample_code.md:2</code></pre>
+<p>とすることで、 sample_code.mdファイルの###以上の見出しが削除される。
+上記のファイル名の部分はpythonの正規表現を使用することができる。</p>
+<p>index.mdに一部の見出しに見出しの次の行の抜粋を載せたい場合、上記と同じ様に、</p>
+<pre><code>    --excerpt link.md:2</code></pre>
+<p>とすることで、link.mdファイルの###の見出しに、その次の行の抜粋が掲載される。</p>
+<!-- md/sample_code.md -->
+<h1 id="sample-code">4 Sample Code <a id="SS_4"></a></h1>
+<h2 id="c">4.1 C++ <a id="SS_4_1"></a></h2>
+<h3 id="codeexample_code.cpp">4.1.1 code/example_code.cpp
+<a id="SS_4_1_1"></a></h3>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>          <span class="dv">1</span> <span class="er">#include &lt;exception&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>          <span class="dv">2</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>          <span class="dv">3</span> <span class="co">// @@@ sample begin 0:0</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>          <span class="dv">4</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>          <span class="dv">5</span> <span class="kw">class</span> Polymorphic_Base <span class="op">{</span>  <span class="co">// ポリモーフィックな基底クラス</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>          <span class="dv">6</span> <span class="kw">public</span><span class="op">:</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>          <span class="dv">7</span>     <span class="kw">virtual</span> <span class="op">~</span>Polymorphic_Base<span class="op">()</span> <span class="op">=</span> <span class="cf">default</span><span class="op">;</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>          <span class="dv">8</span> <span class="op">};</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>          <span class="dv">9</span> </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>         <span class="dv">10</span> <span class="kw">class</span> Polymorphic_Derived <span class="op">:</span> <span class="kw">public</span> Polymorphic_Base <span class="op">{</span>  <span class="co">// ポリモーフィックな派生クラス</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>         <span class="dv">11</span> <span class="op">};</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>         <span class="dv">12</span> <span class="co">// @@@ sample end</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>         <span class="dv">13</span> </span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>         <span class="dv">14</span> <span class="kw">namespace</span> <span class="op">{</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>         <span class="dv">15</span> TEST<span class="op">(</span>TermExplanation<span class="op">,</span> RTTI_polymorphic<span class="op">)</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>         <span class="dv">16</span> <span class="op">{</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>         <span class="dv">17</span>     <span class="co">// @@@ sample begin 0:1</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>         <span class="dv">18</span> </span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>         <span class="dv">19</span>     Polymorphic_Base    b<span class="op">;</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>         <span class="dv">20</span>     Polymorphic_Derived d<span class="op">;</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>         <span class="dv">21</span> </span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>         <span class="dv">22</span>     Polymorphic_Base<span class="op">&amp;</span> b_ref_d <span class="op">=</span> d<span class="op">;</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>         <span class="dv">23</span>     Polymorphic_Base<span class="op">&amp;</span> b_ref_b <span class="op">=</span> b<span class="op">;</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>         <span class="dv">24</span> </span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>         <span class="dv">25</span>     <span class="co">// std::type_infoの比較</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>         <span class="dv">26</span>     ASSERT_EQ<span class="op">(</span><span class="kw">typeid</span><span class="op">(</span>b_ref_d<span class="op">),</span> <span class="kw">typeid</span><span class="op">(</span>d<span class="op">));</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>         <span class="dv">27</span>     ASSERT_EQ<span class="op">(</span><span class="kw">typeid</span><span class="op">(</span>b_ref_b<span class="op">),</span> <span class="kw">typeid</span><span class="op">(</span>b<span class="op">));</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>         <span class="dv">28</span>     <span class="co">// @@@ sample end</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>         <span class="dv">29</span>     <span class="co">// @@@ sample begin 0:2</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>         <span class="dv">30</span> </span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>         <span class="dv">31</span>     <span class="co">// ポインタへのdynamic_cast</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>         <span class="dv">32</span>     Polymorphic_Derived<span class="op">*</span> d_ptr <span class="op">=</span> <span class="kw">dynamic_cast</span><span class="op">&lt;</span>Polymorphic_Derived<span class="op">*&gt;(&amp;</span>b_ref_d<span class="op">);</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>         <span class="dv">33</span>     ASSERT_EQ<span class="op">(</span>d_ptr<span class="op">,</span> <span class="op">&amp;</span>d<span class="op">);</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>         <span class="dv">34</span> </span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>         <span class="dv">35</span>     Polymorphic_Derived<span class="op">*</span> d_ptr2 <span class="op">=</span> <span class="kw">dynamic_cast</span><span class="op">&lt;</span>Polymorphic_Derived<span class="op">*&gt;(&amp;</span>b_ref_b<span class="op">);</span></span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>         <span class="dv">36</span>     ASSERT_EQ<span class="op">(</span>d_ptr2<span class="op">,</span> <span class="kw">nullptr</span><span class="op">);</span>  <span class="co">// キャストできない場合、nullptrが返る</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>         <span class="dv">37</span>     <span class="co">// @@@ sample end</span></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>         <span class="dv">38</span> </span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>         <span class="dv">39</span>     <span class="co">// @@@ sample begin 0:3</span></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>         <span class="dv">40</span> </span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>         <span class="dv">41</span>     <span class="co">// リファレンスへのdynamic_cast</span></span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>         <span class="dv">42</span>     Polymorphic_Derived<span class="op">&amp;</span> d_ref <span class="op">=</span> <span class="kw">dynamic_cast</span><span class="op">&lt;</span>Polymorphic_Derived<span class="op">&amp;&gt;(</span>b_ref_d<span class="op">);</span></span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>         <span class="dv">43</span>     ASSERT_EQ<span class="op">(&amp;</span>d_ref<span class="op">,</span> <span class="op">&amp;</span>d<span class="op">);</span></span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>         <span class="dv">44</span> </span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>         <span class="dv">45</span>     SUPPRESS_WARN_BEGIN<span class="op">;</span>               <span class="co">// @@@ delete</span></span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>         <span class="dv">46</span>     SUPPRESS_WARN_CLANG_UNUSED_VALUE<span class="op">;</span>  <span class="co">// @@@ delete</span></span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>         <span class="dv">47</span>     <span class="co">// キャストできない場合、エクセプションのが発生する</span></span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a>         <span class="dv">48</span>     ASSERT_THROW<span class="op">(</span><span class="kw">dynamic_cast</span><span class="op">&lt;</span>Polymorphic_Derived<span class="op">&amp;&gt;(</span>b_ref_b<span class="op">),</span> <span class="bu">std::</span>bad_cast<span class="op">);</span></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>         <span class="dv">49</span>     <span class="co">// @@@ sample end</span></span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>         <span class="dv">50</span>     SUPPRESS_WARN_END<span class="op">;</span></span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>         <span class="dv">51</span> <span class="op">}</span></span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>         <span class="dv">52</span> <span class="op">}</span>  <span class="co">// namespace</span></span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>         <span class="dv">53</span> </span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a>         <span class="dv">54</span> <span class="co">// @@@ sample begin 2:0</span></span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>         <span class="dv">55</span> </span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>         <span class="dv">56</span> <span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> FUNC<span class="op">&gt;</span></span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>         <span class="dv">57</span> <span class="kw">class</span> ScopedGuard <span class="op">{</span></span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>         <span class="dv">58</span> <span class="kw">public</span><span class="op">:</span></span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>         <span class="dv">59</span>     <span class="kw">explicit</span> ScopedGuard<span class="op">(</span>FUNC f<span class="op">)</span> <span class="op">:</span> <span class="va">f_</span><span class="op">(</span>f<span class="op">)</span></span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>         <span class="dv">60</span>     <span class="op">{</span></span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>         <span class="dv">61</span>         <span class="co">// @@@ sample end</span></span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a>         <span class="dv">62</span>         <span class="co">// @@@ sample begin 2:1</span></span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a>         <span class="dv">63</span>         <span class="co">// f()がill-formedにならず、その戻りがvoidでなければならない</span></span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a>         <span class="dv">64</span>         <span class="kw">static_assert</span><span class="op">(</span><span class="bu">std::</span>is_same<span class="op">&lt;</span><span class="kw">decltype</span><span class="op">(</span>f<span class="op">()),</span> <span class="dt">void</span><span class="op">&gt;::</span>value<span class="op">,</span> <span class="st">&quot;f() must return void&quot;</span><span class="op">);</span></span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a>         <span class="dv">65</span>         <span class="co">// @@@ sample end</span></span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a>         <span class="dv">66</span>         <span class="co">// @@@ sample begin 2:2</span></span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a>         <span class="dv">67</span>     <span class="op">}</span></span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a>         <span class="dv">68</span> </span>
+<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a>         <span class="dv">69</span>     <span class="op">~</span>ScopedGuard<span class="op">()</span> <span class="op">{</span> <span class="va">f_</span><span class="op">();</span> <span class="op">}</span></span>
+<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a>         <span class="dv">70</span> </span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a>         <span class="dv">71</span>     <span class="co">// @@@ ignore begin</span></span>
+<span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a>         <span class="dv">72</span> </span>
+<span id="cb22-73"><a href="#cb22-73" aria-hidden="true" tabindex="-1"></a>         <span class="dv">73</span>     <span class="op">~</span>ScopedGuard<span class="op">()</span> <span class="op">{</span> <span class="va">f_</span><span class="op">();</span> <span class="op">}</span></span>
+<span id="cb22-74"><a href="#cb22-74" aria-hidden="true" tabindex="-1"></a>         <span class="dv">74</span>     ScopedGuard<span class="op">(</span>ScopedGuard <span class="at">const</span><span class="op">&amp;)</span> <span class="op">=</span> <span class="kw">delete</span><span class="op">;</span>     <span class="co">// copyは禁止</span></span>
+<span id="cb22-75"><a href="#cb22-75" aria-hidden="true" tabindex="-1"></a>         <span class="dv">75</span>     ScopedGuard<span class="op">(</span>ScopedGuard<span class="op">&amp;&amp;)</span>      <span class="op">=</span> <span class="cf">default</span><span class="op">;</span>    <span class="co">// moveは認める</span></span>
+<span id="cb22-76"><a href="#cb22-76" aria-hidden="true" tabindex="-1"></a>         <span class="dv">76</span>     <span class="dt">void</span> <span class="kw">operator</span><span class="op">=(</span>ScopedGuard <span class="at">const</span><span class="op">&amp;)</span> <span class="op">=</span> <span class="kw">delete</span><span class="op">;</span>  <span class="co">// copyは禁止</span></span>
+<span id="cb22-77"><a href="#cb22-77" aria-hidden="true" tabindex="-1"></a>         <span class="dv">77</span>     <span class="co">// @@@ ignore end</span></span>
+<span id="cb22-78"><a href="#cb22-78" aria-hidden="true" tabindex="-1"></a>         <span class="dv">78</span> </span>
+<span id="cb22-79"><a href="#cb22-79" aria-hidden="true" tabindex="-1"></a>         <span class="dv">79</span> <span class="kw">private</span><span class="op">:</span></span>
+<span id="cb22-80"><a href="#cb22-80" aria-hidden="true" tabindex="-1"></a>         <span class="dv">80</span>     FUNC <span class="va">f_</span><span class="op">;</span></span>
+<span id="cb22-81"><a href="#cb22-81" aria-hidden="true" tabindex="-1"></a>         <span class="dv">81</span> <span class="op">};</span></span>
+<span id="cb22-82"><a href="#cb22-82" aria-hidden="true" tabindex="-1"></a>         <span class="dv">82</span> <span class="co">// @@@ sample end</span></span></code></pre></div>
+</body>
+</html>

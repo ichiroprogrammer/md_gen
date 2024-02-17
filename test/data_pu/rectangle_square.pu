@@ -1,0 +1,17 @@
+@startuml
+
+class Rectangle {
+    +SetX()
+    +SetY()
+    -set_x()
+    -set_y()
+}
+
+class Square {
+    -set_x()
+    -set_y()
+}
+
+Rectangle <|-down- Square
+
+@enduml
