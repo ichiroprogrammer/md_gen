@@ -1,4 +1,6 @@
 import copy
+import re
+import os
 from os import path
 
 
@@ -48,3 +50,19 @@ class FileContainer:
     @content.getter
     def content(self):
         return self.__content
+
+#VPATH in Makefile
+#VPATH空のパスの補完
+
+def find_file_in_paths(vpath, file):
+    paths = re.split(r'[ :]', vpath) if vpath else None
+
+    if not paths:
+        return None
+        
+    for path in paths:
+        file_path = os.path.join(path, file)
+        if os.path.exists(file_path):
+            return file_path
+    return None
+

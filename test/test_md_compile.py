@@ -6,16 +6,17 @@ from md_lib.file_container import FileContainer
 
 class TestMdCompile(unittest.TestCase):
     def test_args(self):
-        act0 = get_args("-o out in --mds other0 other1 other2".split(" "))
+        act0 = get_args("-o out in --mds other0 other1 other2 -p test/v".split(" "))
         exp0 = {
             "md": "in",
-            "mds": ["other0", "other1", "other2"],
+            "mds": ["test/v/other0", "test/v/other1", "test/v/other2"],
             "D": None,
             "o": "out",
         }
         self.assertEqual(exp0, act0)
 
-        act1 = get_args("-o out in -D o/out".split(" "))
+        act1 = get_args("-o out in -D o/out -p ./vpath".split(" "))
+        print(act1)
         exp1 = {"md": "in", "mds": None, "D": "o/out", "o": "out"}
         self.assertEqual(exp1, act1)
 
