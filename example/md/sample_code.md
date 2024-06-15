@@ -1,7 +1,7 @@
 # Sample Code
 ## C++
 ### code/example_code.cpp
-```c++
+```cpp
           1 #include <exception>
           2 
           3 // @@@ sample begin 0:0

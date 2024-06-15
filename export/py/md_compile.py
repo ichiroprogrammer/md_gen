@@ -17,7 +17,7 @@ def get_args(args=None):
     parser.add_argument("--mds", nargs="*")
     parser.add_argument("-D", nargs=1)
     parser.add_argument("-o", nargs=1)
-    parser.add_argument("-p", type=str, default=None) # VPATH
+    parser.add_argument("-p", type=str, default=None)  # VPATH
 
     args = parser.parse_args(args)
 
@@ -68,7 +68,6 @@ def gen_fc(args: dict) -> FileContainer:
                 md = change_png_link_to_base64(md)
                 content = inject_code(md)
                 return FileContainer(args["o"], content)
-
 
         raise ValueError(f"bug found")
 

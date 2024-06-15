@@ -2,7 +2,7 @@
 # Sample Code <a id="SS_4"></a>
 ## C++ <a id="SS_4_1"></a>
 ### code/example_code.cpp <a id="SS_4_1_1"></a>
-```c++
+```cpp
           1 #include <exception>
           2 
           3 // @@@ sample begin 0:0

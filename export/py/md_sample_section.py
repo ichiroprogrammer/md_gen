@@ -16,7 +16,7 @@ def get_args(args=None):
     parser.add_argument("mds", nargs="+")
     parser.add_argument("--python")
     parser.add_argument("-o", nargs=1)
-    parser.add_argument("-p", type=str, default=None) # VPATH
+    parser.add_argument("-p", type=str, default=None)  # VPATH
 
     args = parser.parse_args(args)
 

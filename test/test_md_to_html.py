@@ -30,10 +30,11 @@ class TestMdMakeSampleSection(unittest.TestCase):
         index_md = "test/data/simple_all_add_sc_index.md"
         index_html = "test/data/simple_all_add_sc_index.html"
 
-        args = get_args(f"-o {index_html} {index_md} --title T00 --author xxx".split(" "))
+        args = get_args(
+            f"-o {index_html} {index_md} --title T00 --author xxx".split(" ")
+        )
         fc_act = gen_fc(args)
 
         fc_act = gen_fc(args)
         fc_exp = FileContainer(index_html)
         self.assertEqual(fc_exp, fc_act)
-

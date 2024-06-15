@@ -4,6 +4,7 @@ import os
 from os import path
 
 
+# ファイル操作系のライブラリ
 def related_path_in_md(md_file_path: str, file_path_in_md: str) -> str:
     dirname = path.dirname(md_file_path)
 
@@ -51,18 +52,19 @@ class FileContainer:
     def content(self):
         return self.__content
 
-#VPATH in Makefile
-#VPATH$B6u$N%Q%9$NJd40(B
+
+# VPATH in Makefile
+# VPATH空のパスの補完
+
 
 def find_file_in_paths(vpath, file):
-    paths = re.split(r'[ :]', vpath) if vpath else None
+    paths = re.split(r"[ :]", vpath) if vpath else None
 
     if not paths:
         return None
-        
+
     for path in paths:
         file_path = os.path.join(path, file)
         if os.path.exists(file_path):
             return file_path
     return None
-
