@@ -251,8 +251,10 @@ def _excerpt_line(line: str) -> str:
     return " " + sliced_line if (sliced_line[-1] == ".") else " " + sliced_line + " ..."
 
 
-def gen_md_index_md(db: list, excerpt: [str], exclude: [str], sec_num: bool) -> [str]:
-    content = ["# インデックス\n"]
+def gen_md_index_md(
+    db: list, line: str, excerpt: [str], exclude: [str], sec_num: bool
+) -> [str]:
+    content = [line]
 
     excerpt_re = [_gen_exc_re(ex) for ex in excerpt]
 

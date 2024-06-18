@@ -323,7 +323,7 @@ class TestMdLink(unittest.TestCase):
     def test_gen_md_index_md(self):
         db_exp = load_db(TestMdLink.__EXP_JSON)
 
-        index_content_act = gen_md_index_md(db_exp, [], [], False)
+        index_content_act = gen_md_index_md(db_exp, "# インデックス\n", [], [], False)
 
         index_content_exp = FileContainer(TestMdLink.__EXP_INDEX_MD).content
 

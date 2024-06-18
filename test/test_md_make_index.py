@@ -17,7 +17,7 @@ class TestMdMakeDb(unittest.TestCase):
         self.assertEqual(exp0, act0)
 
     def test_gen_fc(self):
-        # test/data/simple_all_add_sc.jsonの作り方
+        # test/data/simple_all_add_sc.json
         # cd test/data
         # ../../export/py/md_make_db.py simple_all_add_sc.json --mds simple1_anchor.md
         #        simple2_anchor.md sample_code.md
