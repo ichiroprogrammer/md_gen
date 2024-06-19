@@ -13,6 +13,7 @@ from md_lib.link_ref import (
     gen_md_index_md,
     SectionDict,
     change_link_ext,
+    inject_index
 )
 
 
@@ -41,6 +42,9 @@ class TestMdLink(unittest.TestCase):
     __ACT_JSON = "test/data/simple_all_sec.cp.json"
 
     __EXP_INDEX_MD = "test/data/simple_index.md"
+
+    __ANC_INDEX_INJ = "test/data/simple_index_inject.md"
+    __ANC_INDEX_INJ_INJ = "test/data/simple_index_inject_inject.md"
 
     def setUp(self):
         if path.exists(TestMdLink.__ACT_JSON):
@@ -328,6 +332,17 @@ class TestMdLink(unittest.TestCase):
         index_content_exp = FileContainer(TestMdLink.__EXP_INDEX_MD).content
 
         self.assertEqual(index_content_exp, index_content_act)
+
+
+    def test_inject_index(self):
+
+        fc = FileContainer(TestMdLink.__ANC_INDEX_INJ)
+
+        act = inject_index(fc, fc.content)
+        exp = FileContainer(TestMdLink.__ANC_INDEX_INJ_INJ).content
+
+        self.assertEqual(exp, act)
+
 
     def test_SectionDict(self):
         db_exp = load_db(TestMdLink.__EXP_JSON)

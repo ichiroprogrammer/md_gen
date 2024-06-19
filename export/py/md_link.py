@@ -4,7 +4,7 @@ import argparse
 
 import add_sys_path
 from md_lib.file_container import FileContainer
-from md_lib.link_ref import SectionDict, load_db, add_sec_num
+from md_lib.link_ref import SectionDict, load_db, add_sec_num, inject_index
 
 
 def get_args(args=None):
@@ -25,10 +25,12 @@ def gen_fc(args: dict) -> FileContainer:
 
     content = sd.resolve_ref_in_content(md.content)
 
-    if args["sec_num"]:
-        content = add_sec_num(content)
+    new_content = inject_index(md, content)
 
-    return FileContainer(args["o"], content)
+    if args["sec_num"]:
+        new_content = add_sec_num(new_content)
+
+    return FileContainer(args["o"], new_content)
 
 
 if __name__ == "__main__":

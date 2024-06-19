@@ -9,6 +9,7 @@ md_genは、
 
 * [markdownドキュメント内に外部ファイルの抜粋を挿入する](#md_compile)
 * [markdownドキュメントが依存する外部ファイのリストを作る](#md_compile_d)
+* [markdownドキュメントのインデックスを挿入する](#md_index_inject)
 * [markdownドキュメントの見出しからデータベースを作る](#md_make_db)
 * [markdownドキュメント内のリンクを解決する](#md_link)
 * [markdownドキュメントのインデックスを作る](#md_make_index)
@@ -49,7 +50,14 @@ md_compile.pyは、-Dにより、markdownドキュメントが依存するファ
 md_genはmakeから使われることを想定しているため、
 この依存関係リストにより効率の良いドキュメント生成ができる。
 
-### markdownドキュメントの見出しからデータベースを作る <a id="md_make_db"></a>
+### markdownドキュメントのインデックスを挿入する <a id="md_index_inject"></a>
+md_link.pyは[markdownドキュメント内のリンクを解決する](#md_link)際に、
+
+    <!-- index 3 -->
+
+のようなマークダウンコメントを発見すると、その場所にその章のインデックスを埋め込む。
+indexの後の数字はインデックスを生成するレベルを表す。
+
 md_make_db.pyは、
 md_compile.pyで処理された複数個のmarkdownドキュメントの見出しからデータベースを生成する。
 このデータベースは、インデックスの生成やリンクの解決に使用される。
