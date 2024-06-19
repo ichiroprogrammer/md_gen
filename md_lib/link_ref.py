@@ -23,24 +23,19 @@ _MD_UMCOMPLETED_REF_EXCEPT_RE = re.compile(r"^ {8,}[\"\[]")  # example/*.mdの�
 _MD_UMCOMPLETED_REF2_RE = re.compile(r"\[(?P<name>[^\]]+)\]\(~~~\)")  # リンク先がない場合にも対応
 _MD_SECTION_SEP = "|"
 
-_MD_INDEX_INJECTION_RE = re.compile( r'^<!-- index (?P<exclude>\d+) -->')
+_MD_INDEX_INJECTION_RE = re.compile(r"^<!-- index (?P<first>\d+)-(?P<exclude>\d+) -->")
 
-def _trimming_md(md: FileContainer):
-    trimming_content = md.content[5:]    # ほぼ1-3にはヘッドラインが入る。それを排除
-
-    return FileContainer(md.filename, trimming_content)
-    
 
 def inject_index(md: FileContainer, content: [str]) -> [str]:
     ret = []
 
     for line in content:
         if match_sec := _MD_INDEX_INJECTION_RE.match(line):
-
             exclude = match_sec.groupdict()["exclude"]
-            small_db = gen_md_section_db([_trimming_md(md)])
+            first = match_sec.groupdict()["first"]
+            small_db = gen_md_section_db([md])
             index = gen_md_index_md(small_db, [], [], [f".*.md:{exclude}"], False)
-            ret.extend(index[1:])
+            ret.extend(index[int(first) :])
 
         else:
             ret.append(line)
@@ -278,7 +273,6 @@ def _excerpt_line(line: str) -> str:
 def gen_md_index_md(
     db: list, top_lines: [str], excerpt: [str], exclude: [str], sec_num: bool
 ) -> [str]:
-
     content = top_lines
 
     excerpt_re = [_gen_exc_re(ex) for ex in excerpt]
@@ -292,11 +286,10 @@ def gen_md_index_md(
         full_anchor = recode["full_anchor"]
 
         if len(section) != 1:
-            if last_level > len(section)  :     # 説が代わる
+            if last_level > len(section):  # 説が代わる
                 content.append("\n")  # レベル1の前で改行
 
         last_level = len(section)
-
 
         sec_num_str = (
             _gen_sec_num_from_anchor(recode["anchor"]) + " " if sec_num else ""
@@ -308,7 +301,6 @@ def gen_md_index_md(
         )
 
         content.append(_gen_one_line(full_anchor, section, sec_num_str, excerpt_str))
-
 
     content += ["  \n"] * 2
 

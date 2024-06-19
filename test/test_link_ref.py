@@ -13,7 +13,7 @@ from md_lib.link_ref import (
     gen_md_index_md,
     SectionDict,
     change_link_ext,
-    inject_index
+    inject_index,
 )
 
 
@@ -333,16 +333,13 @@ class TestMdLink(unittest.TestCase):
 
         self.assertEqual(index_content_exp, index_content_act)
 
-
     def test_inject_index(self):
-
         fc = FileContainer(TestMdLink.__ANC_INDEX_INJ)
 
         act = inject_index(fc, fc.content)
         exp = FileContainer(TestMdLink.__ANC_INDEX_INJ_INJ).content
 
         self.assertEqual(exp, act)
-
 
     def test_SectionDict(self):
         db_exp = load_db(TestMdLink.__EXP_JSON)
