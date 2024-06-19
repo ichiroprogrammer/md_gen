@@ -39,7 +39,7 @@ def inject_index(md: FileContainer, content: [str]) -> [str]:
 
             exclude = match_sec.groupdict()["exclude"]
             small_db = gen_md_section_db([_trimming_md(md)])
-            index = gen_md_index_md(small_db, None, [], [f".*.md:{exclude}"], False)
+            index = gen_md_index_md(small_db, [], [], [f".*.md:{exclude}"], False)
             ret.extend(index[1:])
 
         else:
@@ -276,24 +276,27 @@ def _excerpt_line(line: str) -> str:
 
 
 def gen_md_index_md(
-    db: list, line: str, excerpt: [str], exclude: [str], sec_num: bool
+    db: list, top_lines: [str], excerpt: [str], exclude: [str], sec_num: bool
 ) -> [str]:
 
-    if line:
-        content = [line]
-    else:
-        content = []
+    content = top_lines
 
     excerpt_re = [_gen_exc_re(ex) for ex in excerpt]
 
     for ex in [_gen_exc_re(ex) for ex in exclude]:
         db = [recode for recode in db if not ex.match(recode["full_anchor"])]
 
+    last_level = 0
     for recode in db:
         section = recode["section"]
         full_anchor = recode["full_anchor"]
 
-        len(section) == 1 and content.append("\n")  # レベル1の前で改行
+        if len(section) != 1:
+            if last_level > len(section)  :     # 説が代わる
+                content.append("\n")  # レベル1の前で改行
+
+        last_level = len(section)
+
 
         sec_num_str = (
             _gen_sec_num_from_anchor(recode["anchor"]) + " " if sec_num else ""
@@ -305,6 +308,7 @@ def gen_md_index_md(
         )
 
         content.append(_gen_one_line(full_anchor, section, sec_num_str, excerpt_str))
+
 
     content += ["  \n"] * 2
 

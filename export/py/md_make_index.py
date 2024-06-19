@@ -33,7 +33,7 @@ def gen_fc(args: dict) -> FileContainer:
     excerpt = args["excerpt"] if args["excerpt"] else []
     exclude = args["exclude"] if args["exclude"] else []
 
-    index_content = gen_md_index_md(db, "# インデックス\n", excerpt, exclude, args["sec_num"])
+    index_content = gen_md_index_md(db, ["# インデックス\n"], excerpt, exclude, args["sec_num"])
 
     return FileContainer(args["o"], index_content)
 
