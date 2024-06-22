@@ -7,6 +7,8 @@ from md_lib.link_ref import change_link_ext
 
 _LINK_MD_TO_HTML = re.compile(r'("\w+\.)md([#S_0-9]*")')
 _STYLE_END = re.compile(r"</style>")
+TABLE_START = re.compile(r"table {$")
+TABLE_END = re.compile(r"}$")
 
 _STYLE_CSS = """
     body {
@@ -47,6 +49,7 @@ _STYLE_CSS = """
 def adjust_html(fc: FileContainer) -> FileContainer:  # fc for html
     new_content = []
 
+    deleting = False
     for line in fc.content:
         if _STYLE_END.search(line):
             new_content += [line_css + "\n" for line_css in _STYLE_CSS.split("\n")]
@@ -54,6 +57,14 @@ def adjust_html(fc: FileContainer) -> FileContainer:  # fc for html
         if _LINK_MD_TO_HTML.search(line):
             line = _LINK_MD_TO_HTML.sub(r"\1html\2", line)
 
-        new_content.append(line)
+        if TABLE_START.search(line):
+            deleting = True
+
+        if deleting and TABLE_END.search(line):
+            line = None
+            deleting = False
+
+        if not deleting and line:
+            new_content.append(line)
 
     return FileContainer(fc.filename, new_content)

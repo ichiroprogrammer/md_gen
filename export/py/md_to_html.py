@@ -29,7 +29,7 @@ def get_args(args=None):
 def gen_fc(args: dict) -> FileContainer:
     pandoc_version = subprocess.check_output(["pandoc", "--version"]).decode("utf-8")
 
-    if "3.1.2" not in pandoc_version:
+    if "3.2" not in pandoc_version:
         print("Warning: Pandoc version may not be compatible with this code.")
 
     cmd = [

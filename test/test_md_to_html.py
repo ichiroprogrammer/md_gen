@@ -36,5 +36,6 @@ class TestMdMakeSampleSection(unittest.TestCase):
         fc_act = gen_fc(args)
 
         fc_act = gen_fc(args)
+        fc_act.save()
         fc_exp = FileContainer(index_html)
         self.assertEqual(fc_exp, fc_act)

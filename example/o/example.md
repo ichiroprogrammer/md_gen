@@ -195,10 +195,10 @@ markdownファイル内に外部ファイルを抜粋するための記述を連
 ## 3.2 外部ファイルの参照 <a id="SS_3_2"></a>
 code/example_code.cpp全体を参照したい場合、
 
-        "[code/example_code.cpp](---)"
+        [code/example_code.cpp](---)
 
 ように書く。これにより、code/example_code.cppの全体がsample_code.mdに引用され、
-見出し「"[code/example_code.cpp](#SS_4_1_1)"」が作ら、上記にそこへのリンクが張られる。
+見出し「[code/example_code.cpp](#SS_4_1_1)」が作ら、上記にそこへのリンクが張られる。
 
 ## 3.3 pngファイルへのリンク <a id="SS_3_3"></a>
 pngファイルをmarkdownドキュメントに取り込みたい場合、

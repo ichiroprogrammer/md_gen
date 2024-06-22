@@ -60,6 +60,10 @@
     img {
       max-width: 100%;
     }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
     h1, h2, h3, h4, h5, h6 {
       margin-top: 1.4em;
     }
@@ -108,14 +112,6 @@
       height: 1px;
       margin: 1em 0;
     }
-    table {
-      margin: 1em 0;
-      border-collapse: collapse;
-      width: 100%;
-      overflow-x: auto;
-      display: block;
-      font-variant-numeric: lining-nums tabular-nums;
-    }
     table caption {
       margin-bottom: 0.75em;
     }
@@ -152,8 +148,11 @@
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
     ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
       width: 0.8em;
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
@@ -161,7 +160,7 @@
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -172,7 +171,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -257,9 +256,6 @@
     }
 
   </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
 </head>
 <body>
 <header id="title-block-header">
@@ -430,10 +426,10 @@ href="#SS_2_1">外部ファイルの一部抜粋(インデントの変更なし)
 <h2 id="外部ファイルの参照-1">3.2 外部ファイルの参照
 <a id="SS_3_2"></a></h2>
 <p>code/example_code.cpp全体を参照したい場合、</p>
-<pre><code>    &quot;[code/example_code.cpp](---)&quot;</code></pre>
+<pre><code>    [code/example_code.cpp](---)</code></pre>
 <p>ように書く。これにより、code/example_code.cppの全体がsample_code.mdに引用され、
-見出し「“<a
-href="#SS_4_1_1">code/example_code.cpp</a>”」が作ら、上記にそこへのリンクが張られる。</p>
+見出し「<a
+href="#SS_4_1_1">code/example_code.cpp</a>」が作ら、上記にそこへのリンクが張られる。</p>
 <h2 id="pngファイルへのリンク">3.3 pngファイルへのリンク
 <a id="SS_3_3"></a></h2>
 <p>pngファイルをmarkdownドキュメントに取り込みたい場合、</p>
