@@ -26,6 +26,10 @@ _MD_SECTION_SEP = "|"
 _MD_INDEX_INJECTION_RE = re.compile(r"^<!-- index (?P<first>\d+)-(?P<exclude>\d+) -->")
 
 
+# "[file-reference](sample_code.md#xxx)"のパターンからダブルコートを削除
+_REF_FILE_RE = re.compile(r'(?P<pre>.*)"(?P<LINK>\[[^\]]+\]\(---\))"(?P<post>.*)$')
+
+
 def inject_index(md: FileContainer, content: [str]) -> [str]:
     ret = []
 
@@ -143,6 +147,12 @@ def gen_md_anchor_all(mds: [FileContainer]) -> [FileContainer]:
                     )
 
                 section, line = _add_anchor_to_line(section, line)
+
+            if match_file := _REF_FILE_RE.search(line):
+                pre = match_file.groupdict()["pre"]
+                link = match_file.groupdict()["LINK"]
+                post = match_file.groupdict()["post"]
+                line = f"{pre}{link}{post}\n"
 
             new_content.append(line)
             prev_line = line

@@ -22,13 +22,13 @@ class TestMdCompile(unittest.TestCase):
 
     def test_gen_fc(self):
         md = "test/data/code_ref_no_code.md"
-
+        exp0 = "test/data/code_ref_comp_exp.md"
         out0 = "test/data/code_ref_comp.md"
         args0 = get_args(f"-o {out0} {md} " f"--mds {md}".split(" "))
 
-        fc_exp0 = FileContainer(out0)
+        fc_exp0 = FileContainer(exp0)
         fc_act0 = gen_fc(args0)
-        self.assertEqual(fc_exp0, fc_act0)
+        self.assertEqual(fc_exp0.content, fc_act0.content)
 
         out1 = "test/data/code_ref.d"
         args1 = get_args(f"-o {out1} {md} -D o/{out1}".split(" "))
