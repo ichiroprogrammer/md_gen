@@ -8,9 +8,15 @@ from os import path
 def related_path_in_md(md_file_path: str, file_path_in_md: str) -> str:
     dirname = path.dirname(md_file_path)
 
+    if dirname == "":
+        dirname = "./"
+
     related_path = dirname + f"/../{file_path_in_md}"
 
-    return path.normpath(related_path)
+    if os.path.exists(related_path):
+        return path.normpath(related_path)
+
+    return file_path_in_md
 
 
 class FileContainer:

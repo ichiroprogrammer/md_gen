@@ -10,7 +10,7 @@ class TestPngLink(unittest.TestCase):
         test_data = [
             (
                 "![hehe](data_pu/rectangle_square.png)\n",
-                "../data_pu/rectangle_square.png",
+                "data_pu/rectangle_square.png",
             ),
             ("![hehe](data_pu/rectangle_square.png)", None),
             ("[hehe](data_pu/rectangle_square.png)", None),

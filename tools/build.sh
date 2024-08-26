@@ -10,6 +10,7 @@ cd ${BASE_DIR}/.. > /dev/null
 ./tools/format.sh
 
 ./test/test.sh
+./test/test_sh.sh
 
 cd example > /dev/null
 
