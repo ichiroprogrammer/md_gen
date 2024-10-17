@@ -12,7 +12,7 @@ from md_lib.png_ref import change_png_link_to_base64
 # あえて2つのマッチを作ることによってセクション開始文字列の不正を防ぐ
 _MD_SECTION_SIMPLE_RE = re.compile(r"#+")
 _MD_SECTION_ROW_RE = re.compile(
-    r"^(?P<sharp>#+)(\s*)(?P<sec_num>[0-9.]+)?(\s*)(?P<name>.+)\n"
+    r"^(?P<sharp>#+)(\s*)(?P<sec_num>[0-9.]+)?(\s+)(?P<name>.+)\n"
 )
 _MD_SECTION_ANCHOR_RE = re.compile(
     r'^(?P<sharp>#+) (?P<name>.+) <a id="(?P<anchor>.+)"></a>\n'
