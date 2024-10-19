@@ -9,7 +9,7 @@ function help(){
     local -r exit_code=$1
     set +x
 
-    echo "$BASENAME  <XXX. pu> : XXX. pu to XXX.pnge"
+    echo "$BASENAME  <XXX. pu> : XXX. pu to XXX.png"
     echo " <XXX.pu>           : plant uml code file"
     echo "    -h              : show this message"
 
