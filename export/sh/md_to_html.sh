@@ -33,7 +33,7 @@ readonly IN_FILE=$1
 readonly PY_DIR="$BASE_DIR/../py/"
 readonly OUT_FILE_BASE="${IN_FILE%.*}"
 readonly DB_FILE=$OUT_FILE_BASE.$$.db
-readonly COMPILED="comp_$OUT_FILE_BASE.md"
+readonly COMPILED="$OUT_FILE_BASE.o.md"
 
 $PY_DIR/md_compile.py --mds $IN_FILE -o $COMPILED $IN_FILE
 $PY_DIR/md_make_db.py $DB_FILE --mds $COMPILED

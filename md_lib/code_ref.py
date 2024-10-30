@@ -402,7 +402,9 @@ def inject_code(fc: FileContainer):
             cr = int(gd["cr"]) if gd["cr"] else 0  # cr == -1ならばソースコード表示しない
 
             if ((not just_injected) or src != last_src) and cr >= 0:
-                new_content.append(after_index.sub(f" {chunk.line_num}", line))
+                new_content.append(
+                    after_index.sub(f" {chunk.line_num}", line).replace("@@@", "")
+                )
 
             new_content += _adjust_indent(
                 chunk.code_chunk, chunk.indent, indent, offset, cr

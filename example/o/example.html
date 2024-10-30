@@ -306,7 +306,7 @@ cmd/md_make_db.pyが生成したjsonファイルをcmd/md_join.py …<br />
 (ただし、この記述の直前には正規表現で表すと[^@
 ]+となる文字列が必要)。</p>
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @@@ code/example_code.cpp 3</span></span>
+class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">//  code/example_code.cpp 3</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> Polymorphic_Base <span class="op">{</span>  <span class="co">// ポリモーフィックな基底クラス</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span><span class="op">:</span></span>
@@ -329,7 +329,7 @@ class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#
 <pre><code>    @@@ code/example_code.cpp #0:1 begin -1</code></pre>
 <p>下記のように外部ファイルの一部を左1シフトしてmarkdownドキュメント内に埋め込むことができる。</p>
 <div class="sourceCode" id="cb4"><pre
-class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @@@ code/example_code.cpp 17</span></span>
+class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">//  code/example_code.cpp 17</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    Polymorphic_Base    b<span class="op">;</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    Polymorphic_Derived d<span class="op">;</span></span>
@@ -346,7 +346,7 @@ class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#
 <pre><code>    @@@ code/example_code.cpp #0:2 begin -1</code></pre>
 <p>下記のように外部ファイルの一部を左1シフトしてmarkdownドキュメント内に埋め込むことができる。</p>
 <div class="sourceCode" id="cb6"><pre
-class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @@@ code/example_code.cpp 29</span></span>
+class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">//  code/example_code.cpp 29</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ポインタへのdynamic_cast</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    Polymorphic_Derived<span class="op">*</span> d_ptr <span class="op">=</span> <span class="kw">dynamic_cast</span><span class="op">&lt;</span>Polymorphic_Derived<span class="op">*&gt;(&amp;</span>b_ref_d<span class="op">);</span></span>
@@ -363,7 +363,7 @@ class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#
 <pre><code>// @@@ code/example_code.cpp 行数</code></pre>
 <p>のような不要な行がコード内に挿入されないようにできる。</p>
 <div class="sourceCode" id="cb8"><pre
-class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @@@ code/example_code.cpp 54</span></span>
+class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">//  code/example_code.cpp 54</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> FUNC<span class="op">&gt;</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> ScopedGuard <span class="op">{</span></span>
@@ -389,7 +389,7 @@ class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#
 <pre><code>    @@@ code/example_code.cpp #2:1 begin 0 1</code></pre>
 <p>のように書く。</p>
 <div class="sourceCode" id="cb11"><pre
-class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @@@ code/example_code.cpp 62</span></span>
+class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">//  code/example_code.cpp 62</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>            <span class="co">// f()がill-formedにならず、その戻りがvoidでなければならない</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>            <span class="kw">static_assert</span><span class="op">(</span><span class="bu">std::</span>is_same<span class="op">&lt;</span><span class="kw">decltype</span><span class="op">(</span>f<span class="op">()),</span> <span class="dt">void</span><span class="op">&gt;::</span>value<span class="op">,</span> <span class="st">&quot;f() must return void&quot;</span><span class="op">);</span></span></code></pre></div>
@@ -401,7 +401,7 @@ id="外部ファイルの一部の再抜粋インデントを左1シフト改行
 <pre><code>    @@@ code/example_code.cpp #2:1 begin -2 1</code></pre>
 <p>のように書く。</p>
 <div class="sourceCode" id="cb13"><pre
-class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// @@@ code/example_code.cpp 62</span></span>
+class="sourceCode .cpp"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">//  code/example_code.cpp 62</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// f()がill-formedにならず、その戻りがvoidでなければならない</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">static_assert</span><span class="op">(</span><span class="bu">std::</span>is_same<span class="op">&lt;</span><span class="kw">decltype</span><span class="op">(</span>f<span class="op">()),</span> <span class="dt">void</span><span class="op">&gt;::</span>value<span class="op">,</span> <span class="st">&quot;f() must return void&quot;</span><span class="op">);</span></span></code></pre></div>

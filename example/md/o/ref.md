@@ -11,7 +11,7 @@ markdownファイル内に下記のように書くことで
 (ただし、この記述の直前には正規表現で表すと[^@ ]+となる文字列が必要)。
 
 ```.cpp
-    // @@@ code/example_code.cpp 3
+    //  code/example_code.cpp 3
 
     class Polymorphic_Base {  // ポリモーフィックな基底クラス
     public:
@@ -39,7 +39,7 @@ markdownファイル内に下記のように書くことで
 下記のように外部ファイルの一部を左1シフトしてmarkdownドキュメント内に埋め込むことができる。
 
 ```.cpp
-    // @@@ code/example_code.cpp 17
+    //  code/example_code.cpp 17
 
     Polymorphic_Base    b;
     Polymorphic_Derived d;
@@ -60,7 +60,7 @@ markdownファイル内に下記のように書くことで
 下記のように外部ファイルの一部を左1シフトしてmarkdownドキュメント内に埋め込むことができる。
 
 ```.cpp
-    // @@@ code/example_code.cpp 29
+    //  code/example_code.cpp 29
 
     // ポインタへのdynamic_cast
     Polymorphic_Derived* d_ptr = dynamic_cast<Polymorphic_Derived*>(&b_ref_d);
@@ -81,7 +81,7 @@ markdownファイル内に外部ファイルを抜粋するための記述を連
 のような不要な行がコード内に挿入されないようにできる。
 
 ```.cpp
-    // @@@ code/example_code.cpp 54
+    //  code/example_code.cpp 54
 
     template <typename FUNC>
     class ScopedGuard {
@@ -113,7 +113,7 @@ markdownファイル内に外部ファイルを抜粋するための記述を連
 のように書く。
 
 ```.cpp
-    // @@@ code/example_code.cpp 62
+    //  code/example_code.cpp 62
 
             // f()がill-formedにならず、その戻りがvoidでなければならない
             static_assert(std::is_same<decltype(f()), void>::value, "f() must return void");
@@ -127,7 +127,7 @@ markdownファイル内に外部ファイルを抜粋するための記述を連
 のように書く。
 
 ```.cpp
-    // @@@ code/example_code.cpp 62
+    //  code/example_code.cpp 62
 
     // f()がill-formedにならず、その戻りがvoidでなければならない
     static_assert(std::is_same<decltype(f()), void>::value, "f() must return void");

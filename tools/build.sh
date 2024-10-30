@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 readonly BASE_DIR=$(cd $(dirname $0); pwd)
 readonly BASENAME="$(basename $0)"
@@ -12,10 +12,8 @@ cd ${BASE_DIR}/.. > /dev/null
 ./test/test.sh
 ./test/test_sh.sh
 
-cd example > /dev/null
-
-make clean
-make -j html
+make -C example clean
+make -C example html
 
 [[ -n "$(git diff)" ]] && echo "error !!!" && exit 1
 exit 0
