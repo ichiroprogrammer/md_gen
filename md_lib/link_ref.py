@@ -164,6 +164,9 @@ def gen_md_anchor_all(mds: [FileContainer]) -> [FileContainer]:
 
 def _get_section_and_anchor(section, line):
     match_sec = _MD_SECTION_ANCHOR_RE.match(line)
+    if not match_sec:
+        raise ValueError(f"{section}:{line}")
+
     sharp = match_sec.groupdict()["sharp"]
     name = match_sec.groupdict()["name"]
     anchor = match_sec.groupdict()["anchor"]
