@@ -28,12 +28,6 @@ function check_pkg() {
         exit 1
     fi
 
-    which plantuml > /dev/null
-    if [[ $? -ne 0 ]]; then
-        install_help
-        exit 1
-    fi
-
     if [[ ! -e $PLANTUML  ]]; then
         install_help
         exit 1
@@ -46,13 +40,17 @@ function help(){
 
     echo "$BASENAME  <XXX. pu> : XXX. pu to XXX.png"
     echo " <XXX.pu>           : plant uml code file"
+    echo "    -t <FMT>        : <FMT>: png(default)/svg/eps/vdx"
+    echo "    -x              : set -x."
     echo "    -h              : show this message"
 
     exit $exit_code
 }
 
-while getopts "xh" flag; do
+FMT_opt=png
+while getopts "xt:h" flag; do
     case $flag in 
+    t) FMT_opt=$OPTARG ;;
     x)  set -x ;; 
     h)  help 0 ;; 
     \?) help 1 ;; 
@@ -60,12 +58,12 @@ while getopts "xh" flag; do
 done
 shift $(expr ${OPTIND} - 1)
 
+readonly FMT=$FMT_opt
 set -e
 
 readonly PU_FILE=$1
-readonly PNG_FILE="${PU_FILE%.pu}.png"
 
 check_pkg
 
-java -jar $PLANTUML $PU_FILE
+java -Djava.net.useSystemProxies=true -Djava.awt.headless=true -jar $PLANTUML -t$FMT $PU_FILE
 
