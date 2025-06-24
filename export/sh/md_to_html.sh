@@ -33,16 +33,18 @@ readonly IN_FILE=$1
 readonly PY_DIR="$BASE_DIR/../py/"
 readonly OUT_FILE_BASE="${IN_FILE%.*}"
 readonly DB_FILE=$OUT_FILE_BASE.$$.db
-readonly COMPILED="$OUT_FILE_BASE.o.md"
+readonly COMPILED_DIR="c$$"
+readonly COMPILED="$COMPILED_DIR/$OUT_FILE_BASE.md"
+
+mkdir -p $COMPILED_DIR
 
 $PY_DIR/md_compile.py --mds $IN_FILE -o $COMPILED $IN_FILE
 $PY_DIR/md_make_db.py $DB_FILE --mds $COMPILED
 $PY_DIR/md_link.py -o ${COMPILED} --db $DB_FILE $COMPILED
 
-rm -fr $DB_FILE
 
 if [[ -n "$OUT_HTML" ]];then 
     $PY_DIR/md_to_html.py --author "author" --title "TITLE" -o $OUT_FILE_BASE.html $COMPILED
-    rm $COMPILED
 fi
 
+rm -fr $DB_FILE $COMPILED_DIR
