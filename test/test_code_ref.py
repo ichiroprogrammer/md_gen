@@ -77,7 +77,7 @@ class TestCodeRef(unittest.TestCase):
         self.assertEqual(chunk.filename, "test/data/src_1.cpp")
         self.assertEqual(chunk.index, "0:1")
         self.assertEqual(chunk.line_num, 11)
-        expect = ["\n", "    IGNORE_UNUSED_VAR(a);\n", "    ...\n"]
+        expect = ["\n", "    IGNORE_UNUSED_VAR(a);\n", "    // ...\n"]
         self.assertEqual(chunk.code_chunk, expect)
 
         #

@@ -302,7 +302,7 @@ class CodeChunkDict:
             if in_ignore:
                 if match_end := CodeRefSyntax.CODE_IGNORE_END.search(line):
                     in_ignore = False
-                    line = f"{match_end.groupdict()['space']}...\n"
+                    line = f"{match_end.groupdict()['space']}// ...\n"
                     ret.append(line)
             else:
                 if CodeRefSyntax.CODE_IGNORE_BEGIN.search(line):
