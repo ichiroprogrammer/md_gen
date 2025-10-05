@@ -5,7 +5,7 @@ from os import path
 from md_lib.file_container import FileContainer
 from md_lib.link_ref import change_link_ext
 
-_LINK_MD_TO_HTML = re.compile(r'("\w+\.)md([#S_0-9]*")')
+_LINK_MD_TO_HTML = re.compile(r'("\w+\.)(o\.)md([#S_0-9]*")')
 _STYLE_END = re.compile(r"</style>")
 TABLE_START = re.compile(r"table {$")
 TABLE_END = re.compile(r"}$")
@@ -54,8 +54,8 @@ def adjust_html(fc: FileContainer) -> FileContainer:  # fc for html
         if _STYLE_END.search(line):
             new_content += [line_css + "\n" for line_css in _STYLE_CSS.split("\n")]
 
-        if _LINK_MD_TO_HTML.search(line):
-            line = _LINK_MD_TO_HTML.sub(r"\1html\2", line)
+        if match := _LINK_MD_TO_HTML.search(line):
+            line = _LINK_MD_TO_HTML.sub(r"\1html\3", line)
 
         if TABLE_START.search(line):
             deleting = True
