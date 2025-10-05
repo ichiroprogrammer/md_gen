@@ -94,7 +94,7 @@ markdownファイル内に外部ファイルを抜粋するための記述を連
 
         ~ScopedGuard() { f_(); }
 
-        ...
+        // ...
 
     private:
         FUNC f_;

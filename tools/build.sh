@@ -6,7 +6,7 @@ readonly BASENAME="$(basename $0)"
 
 cd ${BASE_DIR}/.. > /dev/null
 
-./export/sh/find_not_utf8.sh -e ".*.png"
+./export/sh/find_not_utf8.sh -e ".*.png|*.jar"
 ./tools/format.sh
 
 ./test/test.sh
