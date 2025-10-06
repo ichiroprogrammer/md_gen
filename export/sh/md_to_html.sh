@@ -11,15 +11,21 @@ function help(){
     echo "    -o <OUT>        : generate <OUT>"
     echo "    -H              : generate NAME.html from NAME.md"
     echo "    -x              : set -x."
+    echo "    -a <AUTOR>      : add <AUTOR> to top of doc"
+    echo "    -t <TITLE>      : add <TITLE> to top of doc"
     echo "    -h              : show this message"
 
 
     exit $exit_code
 }
 
-while getopts "o:xhH" flag; do
+AUTOR="none"
+TITLE="no tile"
+while getopts "o:xhHa:t:" flag; do
     case $flag in 
     o) readonly OUT_FILE="$OPTARG" ;; 
+    a) AUTOR="$OPTARG" ;; 
+    t) TITLE="$OPTARG" ;; 
     x)  set -x ;; 
     H) readonly OUT_HTML="true";;
     h)  help 0 ;; 
@@ -44,7 +50,7 @@ $PY_DIR/md_link.py -o ${COMPILED} --db $DB_FILE $COMPILED
 
 
 if [[ -n "$OUT_HTML" ]];then 
-    $PY_DIR/md_to_html.py --author "author" --title "TITLE" -o $OUT_FILE_BASE.html $COMPILED
+    $PY_DIR/md_to_html.py --author "$AUTOR" --title "$TITLE" -o $OUT_FILE_BASE.html $COMPILED
 fi
 
 rm -fr $DB_FILE $COMPILED_DIR
