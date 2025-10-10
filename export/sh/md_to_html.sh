@@ -42,6 +42,8 @@ readonly DB_FILE=$OUT_FILE_BASE.$$.db
 readonly COMPILED_DIR="c$$"
 readonly COMPILED="$COMPILED_DIR/$IN_FILE"
 
+trap "rm -fr $DB_FILE $COMPILED_DIR" EXIT   # 終了するときに実行
+
 mkdir -p "$(dirname $COMPILED)"
 
 $PY_DIR/md_compile.py --mds $IN_FILE -o $COMPILED $IN_FILE
@@ -53,4 +55,3 @@ if [[ -n "$OUT_HTML" ]];then
     $PY_DIR/md_to_html.py --author "$AUTOR" --title "$TITLE" -o $OUT_FILE_BASE.html $COMPILED
 fi
 
-rm -fr $DB_FILE $COMPILED_DIR
