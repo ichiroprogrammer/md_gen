@@ -328,7 +328,18 @@ class SectionDict:
         return FileContainer(md.filename, self.resolve_ref_in_content(md.content))
 
     def resolve_ref_in_content(self, content: [str]) -> [str]:
-        ret = [self._sub_ref_line(line) for line in content]
+        error_exit = False
+        ret = []
+
+        for line in content:
+            try:
+                ret.append(self._sub_ref_line(line))
+            except:
+                error_exit = True
+
+        if error_exit:
+            print("link error")
+            exit(1)
 
         return [item for item in ret if item is not None]
 
@@ -348,7 +359,12 @@ class SectionDict:
             if _MD_UMCOMPLETED_REF_EXCEPT_RE.search(line):
                 return line
 
-            return _MD_UMCOMPLETED_REF_RE.sub(self._sub_ref_each, line)
+            try:
+                return _MD_UMCOMPLETED_REF_RE.sub(self._sub_ref_each, line)
+            except ValueError as e:
+                print(f"Error at line:{line.strip()}")
+                print(f"Message: {e}")
+                raise
 
         if _MD_UMCOMPLETED_REF2_RE.search(line):
             line = line.replace("](~~~)", "](---)")
