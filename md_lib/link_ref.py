@@ -18,7 +18,9 @@ _MD_SECTION_ANCHOR_RE = re.compile(
     r'^(?P<sharp>#+) (?P<name>.+) <a id="(?P<anchor>.+)"></a>\n'
 )
 
-_MD_UMCOMPLETED_REF_RE = re.compile(r"\[(?P<name>[^\]]+)\]\(---\)")
+_MD_UMCOMPLETED_REF_RE = re.compile(
+    r"(?<!\[)\[(?P<name>(?:(?!\]\]|\]\(---\)).)+?)\]\(---\)"
+)
 _MD_UMCOMPLETED_REF_EXCEPT_RE = re.compile(r"^ {8,}[\"\[]")  # example/*.mdのために必要
 _MD_UMCOMPLETED_REF2_RE = re.compile(r"\[(?P<name>[^\]]+)\]\(~~~\)")  # リンク先がない場合にも対応
 _MD_SECTION_SEP = "|"
