@@ -53,5 +53,7 @@ $PY_DIR/md_link.py -o ${COMPILED} --db $DB_FILE $COMPILED
 
 if [[ -n "$OUT_HTML" ]];then 
     $PY_DIR/md_to_html.py --author "$AUTOR" --title "$TITLE" -o $OUT_FILE_BASE.html $COMPILED
+else
+    mv $COMPILED comp_$IN_FILE
 fi
 
