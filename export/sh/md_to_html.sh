@@ -7,9 +7,9 @@ function help(){
     local -r exit_code=$1
     set +x
 
-    echo "$BASENAME  [option] : "
-    echo "    -o <OUT>        : generate <OUT>"
-    echo "    -H              : generate NAME.html from NAME.md"
+    echo "$BASENAME  [option] <XXX.md>: "
+    echo "    -o <OUT_DIR>    : generate to <OUT_DIR>/<XXX.md>"
+    echo "    -H              : generate XXX.html from XXX.md or <OUT_DIR>/<XXX.html>"
     echo "    -x              : set -x."
     echo "    -a <AUTOR>      : add <AUTOR> to top of doc"
     echo "    -t <TITLE>      : add <TITLE> to top of doc"
@@ -23,7 +23,7 @@ AUTOR="none"
 TITLE="no tile"
 while getopts "o:xhHa:t:" flag; do
     case $flag in 
-    o) readonly OUT_FILE="$OPTARG" ;; 
+    o) readonly OUT_DIR="$OPTARG" ;; 
     a) AUTOR="$OPTARG" ;; 
     t) TITLE="$OPTARG" ;; 
     x)  set -x ;; 
@@ -53,11 +53,13 @@ $PY_DIR/md_link.py -o ${COMPILED} --db $DB_FILE $COMPILED
 
 if [[ -n "$OUT_HTML" ]];then 
     $PY_DIR/md_to_html.py --author "$AUTOR" --title "$TITLE" -o $OUT_FILE_BASE.html $COMPILED
-else
-    if [[ -n "$OUT_FILE" ]];then 
-        cp $COMPILED $OUT_FILE
-    else
-        cp $COMPILED $OUT_FILE_BASE.comp.md
-    fi
 fi
 
+if [[ -n "$OUT_DIR" ]];then 
+    mkdir -p "$OUT_DIR"
+    mv $COMPILED $OUT_DIR
+
+    if [[ -e "$OUT_FILE_BASE.html" ]];then 
+        mv "$OUT_FILE_BASE.html" "$OUT_DIR"
+    fi
+fi
