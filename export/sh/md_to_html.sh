@@ -44,12 +44,13 @@ shift $(expr ${OPTIND} - 1)
 readonly IN_FILE_FIRST=$1
 readonly IN_FILES_NUM="$#"
 readonly IN_FILES="$*"
+readonly COMPILE_TMP="$OUT_DIR/c"
 
 if [[ -z "$FORCE_EXEC"  && -e "$OUT_DIR" ]] ;then 
     echo "$OUT_DIR exsits(without -f)"
     exit 1
 else 
-    mkdir -p $OUT_DIR/c
+    mkdir -p $COMPILE_TMP
 fi
 
 if [[ -z "$OUT_FILE_BASE" ]];then 
@@ -60,14 +61,14 @@ if [[ -z "$OUT_FILE_BASE" ]];then
     fi
 fi
 
-readonly DB_FILE=$OUT_DIR/c/out.db
+readonly DB_FILE=$COMPILE_TMP/out.db
 
-trap "rm -fr $DB_FILE $OUT_DIR/c/" EXIT   # 終了するときに実行
+trap "rm -fr $DB_FILE $COMPILE_TMP" EXIT   # 終了するときに実行
 
 ALL_COMPILED=""
 for md in $IN_FILES
 do 
-    COMPILED="$OUT_DIR/c/$(basename $md)"
+    COMPILED="$COMPILE_TMP/$(basename $md)"
     echo "compiling $md to $COMPILED"
     $PY_DIR/md_compile.py --mds $IN_FILES -o $COMPILED $md
     ALL_COMPILED="$ALL_COMPILED $COMPILED"
@@ -75,14 +76,16 @@ done
 
 $PY_DIR/md_make_db.py $DB_FILE --mds $ALL_COMPILED
 
-for comp_md in $ALL_COMPILED
+ALL_LINKED=""
+for compiled in $ALL_COMPILED
 do 
-    md="${comp_md/\/c\//\/}"
-    echo "linking $md from $comp_md"
-    $PY_DIR/md_link.py -o ${md} --db $DB_FILE $comp_md
+    LINKED="$(basename $compiled)"
+    echo "linking $LINKED from $compiled"
+    $PY_DIR/md_link.py -o ${LINKED} --db $DB_FILE $compiled
+    ALL_LINKED="$ALL_LINKED $LINKED"
 done
 
-$PY_DIR/md_join.py -o $OUT_DIR/$OUT_FILE_BASE.md $ALL_COMPILED 
+$PY_DIR/md_join.py -o $OUT_DIR/$OUT_FILE_BASE.md $ALL_LINKED 
 
 if [[ -n "$OUT_HTML" ]];then 
     $PY_DIR/md_to_html.py --author "$AUTOR" --title "$TITLE" -o $OUT_DIR/$OUT_FILE_BASE.html $OUT_DIR/$OUT_FILE_BASE.md
