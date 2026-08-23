@@ -2,31 +2,37 @@
 
 readonly BASE_DIR=$(cd $(dirname $0); pwd)
 readonly BASENAME="$(basename $0)"
+readonly PY_DIR="$BASE_DIR/../py/"
 
 function help(){
     local -r exit_code=$1
     set +x
 
-    echo "$BASENAME  [option] <XXX.md>: "
-    echo "    -o <OUT_DIR>    : generate to <OUT_DIR>/<XXX.md>"
+    echo "$BASENAME  [option] <XXX.md>'s ...: "
+    echo "    -o <OUT_DIR>    : generate to <OUT_DIR>/<XXX.md>. default is ./o" 
+    echo "    -f              : force to exec even if <OUT_DIR> exists"
+    echo "    -b <BASE_NAME>  : basenanme of output file" 
     echo "    -H              : generate XXX.html from XXX.md or <OUT_DIR>/<XXX.html>"
     echo "    -x              : set -x."
     echo "    -a <AUTOR>      : add <AUTOR> to top of doc"
     echo "    -t <TITLE>      : add <TITLE> to top of doc"
     echo "    -h              : show this message"
 
-
     exit $exit_code
 }
 
 AUTOR="none"
 TITLE="no tile"
-while getopts "o:xhHa:t:" flag; do
+OUT_DIR="./o"
+OUT_FILE_BASE=""
+while getopts "o:xhHa:b:t:f" flag; do
     case $flag in 
-    o) readonly OUT_DIR="$OPTARG" ;; 
     a) AUTOR="$OPTARG" ;; 
+    b) OUT_FILE_BASE="$OPTARG" ;; 
+    o) readonly OUT_DIR="$OPTARG" ;; 
     t) TITLE="$OPTARG" ;; 
-    x)  set -x ;; 
+    f) readonly FORCE_EXEC="true";;
+    x) set -x ;; 
     H) readonly OUT_HTML="true";;
     h)  help 0 ;; 
     \?) help 1 ;; 
@@ -35,31 +41,50 @@ done
 
 shift $(expr ${OPTIND} - 1)
 
-readonly IN_FILE=$1
-readonly PY_DIR="$BASE_DIR/../py/"
-readonly OUT_FILE_BASE="${IN_FILE%.*}"
-readonly DB_FILE=$OUT_FILE_BASE.$$.db
-readonly COMPILED_DIR="c$$"
-readonly COMPILED="$COMPILED_DIR/$IN_FILE"
+readonly IN_FILE_FIRST=$1
+readonly IN_FILES_NUM="$#"
+readonly IN_FILES="$*"
 
-trap "rm -fr $DB_FILE $COMPILED_DIR" EXIT   # $B=*N;$9$k$H$-$K<B9T(B
-
-mkdir -p "$(dirname $COMPILED)"
-
-$PY_DIR/md_compile.py --mds $IN_FILE -o $COMPILED $IN_FILE
-$PY_DIR/md_make_db.py $DB_FILE --mds $COMPILED
-$PY_DIR/md_link.py -o ${COMPILED} --db $DB_FILE $COMPILED
-
-
-if [[ -n "$OUT_HTML" ]];then 
-    $PY_DIR/md_to_html.py --author "$AUTOR" --title "$TITLE" -o $OUT_FILE_BASE.html $COMPILED
+if [[ -z "$FORCE_EXEC"  && -e "$OUT_DIR" ]] ;then 
+    echo "$OUT_DIR exsits(without -f)"
+    exit 1
+else 
+    mkdir -p $OUT_DIR/c
 fi
 
-if [[ -n "$OUT_DIR" ]];then 
-    mkdir -p "$OUT_DIR"
-    mv $COMPILED $OUT_DIR
-
-    if [[ -e "$OUT_FILE_BASE.html" ]];then 
-        mv "$OUT_FILE_BASE.html" "$OUT_DIR"
+if [[ -z "$OUT_FILE_BASE" ]];then 
+    if [[ $IN_FILES_NUM == 1 ]]; then
+        OUT_FILE_BASE="${IN_FILE_FIRST%.*}"
+    else
+        OUT_FILE_BASE="all"
     fi
 fi
+
+readonly DB_FILE=$OUT_DIR/c/out.db
+
+trap "rm -fr $DB_FILE $OUT_DIR/c/" EXIT   # 終了するときに実行
+
+ALL_COMPILED=""
+for md in $IN_FILES
+do 
+    COMPILED="$OUT_DIR/c/$(basename $md)"
+    echo "compiling $md to $COMPILED"
+    $PY_DIR/md_compile.py --mds $IN_FILES -o $COMPILED $md
+    ALL_COMPILED="$ALL_COMPILED $COMPILED"
+done
+
+$PY_DIR/md_make_db.py $DB_FILE --mds $ALL_COMPILED
+
+for comp_md in $ALL_COMPILED
+do 
+    md="${comp_md/\/c\//\/}"
+    echo "linking $md from $comp_md"
+    $PY_DIR/md_link.py -o ${md} --db $DB_FILE $comp_md
+done
+
+$PY_DIR/md_join.py -o $OUT_DIR/$OUT_FILE_BASE.md $ALL_COMPILED 
+
+if [[ -n "$OUT_HTML" ]];then 
+    $PY_DIR/md_to_html.py --author "$AUTOR" --title "$TITLE" -o $OUT_DIR/$OUT_FILE_BASE.html $OUT_DIR/$OUT_FILE_BASE.md
+fi
+
