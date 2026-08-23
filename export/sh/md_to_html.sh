@@ -79,7 +79,7 @@ $PY_DIR/md_make_db.py $DB_FILE --mds $ALL_COMPILED
 ALL_LINKED=""
 for compiled in $ALL_COMPILED
 do 
-    LINKED="$(basename $compiled)"
+    LINKED="$OUT_DIR/$(basename $compiled)"
     echo "linking $LINKED from $compiled"
     $PY_DIR/md_link.py -o ${LINKED} --db $DB_FILE $compiled
     ALL_LINKED="$ALL_LINKED $LINKED"
