@@ -3,6 +3,22 @@
 ## md_genの目的
 md_genはコンピュータ言語の解説や使用法等についてのドキュメントを効率的に作成するためのツールである。
 
+### md_genの回帰テスト
+以下を実行することによりmd_gen/exportのスクリプトとpythonコードのフォーマットができる。
+```
+$ ./tools/build.sh      # ./test/test.shや./test/test_sh.shの呼び出しも行う
+```
+
+以下を実行することによりmd_gen/export/pyのスクリプトの回帰テストができる。
+```
+$ ./test/test.sh
+```
+
+以下を実行することによりmd_gen/export/shのスクリプトの回帰テストができる。
+```
+$ ./test/test_sh.sh
+```
+
 ## md_genの機能
 
 md_genは、

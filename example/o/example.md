@@ -248,6 +248,7 @@ index.mdに一部の見出しに見出しの次の行の抜粋を載せたい場
 # 4 Sample Code <a id="SS_4"></a>
 ## 4.1 C++ <a id="SS_4_1"></a>
 ### 4.1.1 code/example_code.cpp <a id="SS_4_1_1"></a>
+
 ```cpp
           1 #include <exception>
           2 

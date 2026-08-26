@@ -1,6 +1,7 @@
 # Sample Code
 ## etc
 ### ./data/include_test.md
+
 ```
           1 # bool型
           2 * hehe

@@ -32,7 +32,8 @@ def _gen_file_content(filename: str, sort: str):
     indent = " " * 8
 
     return (
-        [f"```{sort}\n"]
+        ["\n"]
+        + [f"```{sort}\n"]  # コードセクションから始まると、色々と不都合があるので、改行からにする
         + [f"{indent}{i:>3} {line}" for i, line in enumerate(fc.content, 1)]
         + [f"```\n"]
         + ["\n"]

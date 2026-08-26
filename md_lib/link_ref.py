@@ -134,27 +134,35 @@ def _add_anchor_to_line(section: [int], line: str) -> ([int], str):
 def gen_md_anchor_all(mds: [FileContainer]) -> [FileContainer]:
     section = [0] * 10
     ret = []
+    in_code_sec = False
 
     for md in mds:
         new_content = [f"<!-- {md.filename} -->\n"]
         prev_line = "\n"
 
         for index, line in enumerate(md.content):
-            if _MD_SECTION_SIMPLE_RE.match(line):
-                if not prev_line.isspace() and not _MD_SECTION_SIMPLE_RE.match(
-                    prev_line
-                ):
-                    raise ValueError(
-                        f"{md.filename}:{index} before {line} shall be space"
-                    )
+            if re.match(r"^```.*", line):
+                if in_code_sec:
+                    in_code_sec = False
+                else:
+                    in_code_sec = True
 
-                section, line = _add_anchor_to_line(section, line)
+            if not in_code_sec:
+                if _MD_SECTION_SIMPLE_RE.match(line):
+                    if not prev_line.isspace() and not _MD_SECTION_SIMPLE_RE.match(
+                        prev_line
+                    ):
+                        raise ValueError(
+                            f"{md.filename}:{index} before {line} shall be space"
+                        )
 
-            if match_file := _REF_FILE_RE.search(line):
-                pre = match_file.groupdict()["pre"]
-                link = match_file.groupdict()["LINK"]
-                post = match_file.groupdict()["post"]
-                line = f"{pre}{link}{post}\n"
+                    section, line = _add_anchor_to_line(section, line)
+
+                if match_file := _REF_FILE_RE.search(line):
+                    pre = match_file.groupdict()["pre"]
+                    link = match_file.groupdict()["LINK"]
+                    post = match_file.groupdict()["post"]
+                    line = f"{pre}{link}{post}\n"
 
             new_content.append(line)
             prev_line = line
@@ -187,22 +195,30 @@ def _gen_md_section_db_each(md: FileContainer, section) -> list:
     db = []
 
     prev_line = ""
+    in_code_sec = False
 
     for curr_line in md.content:
-        if _MD_SECTION_SIMPLE_RE.match(prev_line):
-            section, anchor = _get_section_and_anchor(section, prev_line)
+        if re.match(r"^```.*", curr_line):
+            if in_code_sec:
+                in_code_sec = False
+            else:
+                in_code_sec = True
 
-            filename = path.basename(md.filename)
+        if not in_code_sec:
+            if _MD_SECTION_SIMPLE_RE.match(prev_line):
+                section, anchor = _get_section_and_anchor(section, prev_line)
 
-            db.append(
-                {
-                    "filename": filename,
-                    "anchor": anchor,
-                    "full_anchor": filename + "#" + anchor,
-                    "section": section,
-                    "excerpt": curr_line,
-                }
-            )
+                filename = path.basename(md.filename)
+
+                db.append(
+                    {
+                        "filename": filename,
+                        "anchor": anchor,
+                        "full_anchor": filename + "#" + anchor,
+                        "section": section,
+                        "excerpt": curr_line,
+                    }
+                )
 
         prev_line = curr_line
         # mdの最後の2行は空行であるので、セクションのチェック漏れはない
