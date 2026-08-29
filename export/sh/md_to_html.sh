@@ -15,6 +15,7 @@ function help(){
     echo "    -H              : generate XXX.html from XXX.md or <OUT_DIR>/<XXX.html>"
     echo "    -x              : set -x."
     echo "    -a <AUTOR>      : add <AUTOR> to top of doc"
+    echo "    -s              : add sectin number to headlines"
     echo "    -t <TITLE>      : add <TITLE> to top of doc"
     echo "    -h              : show this message"
 
@@ -25,11 +26,13 @@ AUTOR="none"
 TITLE="no tile"
 OUT_DIR="./o"
 OUT_FILE_BASE=""
-while getopts "o:xhHa:b:t:f" flag; do
+SEC_NUM=""
+while getopts "o:sxhHa:b:t:f" flag; do
     case $flag in 
     a) AUTOR="$OPTARG" ;; 
     b) OUT_FILE_BASE="$OPTARG" ;; 
     o) readonly OUT_DIR="$OPTARG" ;; 
+    s) SEC_NUM="--sec_num" ;;
     t) TITLE="$OPTARG" ;; 
     f) readonly FORCE_EXEC="true";;
     x) set -x ;; 
@@ -81,7 +84,7 @@ for compiled in $ALL_COMPILED
 do 
     LINKED="$OUT_DIR/$(basename $compiled)"
     echo "linking $LINKED from $compiled"
-    $PY_DIR/md_link.py -o ${LINKED} --db $DB_FILE $compiled
+    $PY_DIR/md_link.py $SEC_NUM -o ${LINKED} --db $DB_FILE $compiled
     ALL_LINKED="$ALL_LINKED $LINKED"
 done
 
