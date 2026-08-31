@@ -15,6 +15,7 @@ function help(){
     echo "    -H              : generate XXX.html from XXX.md or <OUT_DIR>/<XXX.html>"
     echo "    -x              : set -x."
     echo "    -a <AUTOR>      : add <AUTOR> to top of doc"
+    echo "    -p              : png file with plantuml code" 
     echo "    -s              : add sectin number to headlines"
     echo "    -t <TITLE>      : add <TITLE> to top of doc"
     echo "    -h              : show this message"
@@ -27,12 +28,13 @@ TITLE="no tile"
 OUT_DIR="./o"
 OUT_FILE_BASE=""
 SEC_NUM=""
-while getopts "o:sxhHa:b:t:f" flag; do
+while getopts "o:psxhHa:b:t:f" flag; do
     case $flag in 
     a) AUTOR="$OPTARG" ;; 
     b) OUT_FILE_BASE="$OPTARG" ;; 
     o) readonly OUT_DIR="$OPTARG" ;; 
     s) SEC_NUM="--sec_num" ;;
+    p) readonly PU_CODE="true" ;;
     t) TITLE="$OPTARG" ;; 
     f) readonly FORCE_EXEC="true";;
     x) set -x ;; 
@@ -64,6 +66,10 @@ if [[ -z "$OUT_FILE_BASE" ]];then
     fi
 fi
 
+if [[ -n "$PU_CODE" ]];then 
+    readonly OUT_FILE_BASE_PU="${OUT_FILE_BASE}_pu"
+fi
+
 readonly DB_FILE=$COMPILE_TMP/out.db
 
 trap "rm -fr $DB_FILE $COMPILE_TMP" EXIT   # 終了するときに実行
@@ -89,8 +95,15 @@ do
 done
 
 $PY_DIR/md_join.py -o $OUT_DIR/$OUT_FILE_BASE.md $ALL_LINKED 
+if [[ -n "$PU_CODE" ]];then 
+    $PY_DIR/md_inject_pu.py $OUT_DIR/$OUT_FILE_BASE.md -o $OUT_DIR/${OUT_FILE_BASE_PU}.md
+fi
 
 if [[ -n "$OUT_HTML" ]];then 
     $PY_DIR/md_to_html.py --author "$AUTOR" --title "$TITLE" -o $OUT_DIR/$OUT_FILE_BASE.html $OUT_DIR/$OUT_FILE_BASE.md
+    if [[ -n "$PU_CODE" ]];then 
+        $PY_DIR/md_to_html.py --author "$AUTOR" --title "$TITLE" \
+            $OUT_DIR/$OUT_FILE_BASE_PU.md -o $OUT_DIR/$OUT_FILE_BASE_PU.html 
+    fi
 fi
 
