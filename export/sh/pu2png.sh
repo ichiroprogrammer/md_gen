@@ -19,7 +19,6 @@ wget https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar 
 EOS
 }
 
-
 function check_pkg() {
 
     which java > /dev/null
@@ -40,6 +39,7 @@ function help(){
 
     echo "$BASENAME  <XXX. pu> : XXX. pu to XXX.png"
     echo " <XXX.pu>           : plant uml code file"
+    echo "    -L              : generate legnd"
     echo "    -t <FMT>        : <FMT>: png(default)/svg/eps/vdx"
     echo "    -x              : set -x."
     echo "    -h              : show this message"
@@ -47,9 +47,25 @@ function help(){
     exit $exit_code
 }
 
+function gen_legend() {
+    readonly output="$1"
+    cat << legend_EOS > $output
+@startuml
+
+legend right
+  |色|意味|
+  |<back:Green>　　</back>|単方向の依存|
+  |<back:Orange>　　</back>|依存グラフ中の循環|
+  |<back:Red>　　</back>|相互依存|
+endlegend
+@enduml
+legend_EOS
+}
+
 FMT_opt=png
-while getopts "xt:h" flag; do
+while getopts "Lxt:h" flag; do
     case $flag in 
+    L) LEGEND="legend.pu" ;;
     t) FMT_opt=$OPTARG ;;
     x)  set -x ;; 
     h)  help 0 ;; 
@@ -64,6 +80,14 @@ set -e
 readonly PU_FILE=$1
 
 check_pkg
+
+if [[ -n "$LEGEND" ]]; then
+    readonly dir=$(dirname $PU_FILE)
+    readonly legend_file=${dir}/'legend.pu'
+    
+    gen_legend $legend_file
+    java -Djava.net.useSystemProxies=true -Djava.awt.headless=true -jar $PLANTUML -t$FMT $legend_file
+fi
 
 java -Djava.net.useSystemProxies=true -Djava.awt.headless=true -jar $PLANTUML -t$FMT $PU_FILE
 
