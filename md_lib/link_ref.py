@@ -32,7 +32,7 @@ _MD_INDEX_INJECTION_RE = re.compile(r"^<!-- index (?P<first>\d+)-(?P<exclude>\d+
 _REF_FILE_RE = re.compile(r'(?P<pre>.*)"(?P<LINK>\[[^\]]+\]\(---\))"(?P<post>.*)$')
 
 
-def inject_index(md: FileContainer, content: [str]) -> [str]:
+def inject_index(md: FileContainer, content: [str], sec_num: [bool]) -> [str]:
     ret = []
 
     for line in content:
@@ -40,7 +40,7 @@ def inject_index(md: FileContainer, content: [str]) -> [str]:
             exclude = match_sec.groupdict()["exclude"]
             first = match_sec.groupdict()["first"]
             small_db = gen_md_section_db([md])
-            index = gen_md_index_md(small_db, [], [], [f".*.md:{exclude}"], False)
+            index = gen_md_index_md(small_db, [], [], [f".*.md:{exclude}"], sec_num)
             ret.extend(index[int(first) :])
 
         else:
@@ -253,10 +253,10 @@ def _gen_one_line(
     full_anchor: str, sec: list, sec_num_str: str, excerpt_str: str
 ) -> str:
     sec_name = sec[-1]
-    head = "&emsp;" * len(sec)
+    head = "&emsp;" * (len(sec) - 2)
 
     # 行末2spaceは改行のため必要
-    return f"{head} {sec_num_str}[{sec_name}]({full_anchor}){excerpt_str}  \n"
+    return f"{head}{sec_num_str}[{sec_name}]({full_anchor}){excerpt_str}  \n"
 
 
 def _gen_exc_re(exclude_str):

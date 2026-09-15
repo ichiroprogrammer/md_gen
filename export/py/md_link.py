@@ -25,7 +25,7 @@ def gen_fc(args: dict) -> FileContainer:
 
     content = sd.resolve_ref_in_content(md.content)
 
-    new_content = inject_index(md, content)
+    new_content = inject_index(md, content, args["sec_num"])
 
     if args["sec_num"]:
         new_content = add_sec_num(new_content)

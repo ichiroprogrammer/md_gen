@@ -336,7 +336,7 @@ class TestMdLink(unittest.TestCase):
     def test_inject_index(self):
         fc = FileContainer(TestMdLink.__ANC_INDEX_INJ)
 
-        act = inject_index(fc, fc.content)
+        act = inject_index(fc, fc.content, False)
         exp = FileContainer(TestMdLink.__ANC_INDEX_INJ_INJ).content
 
         self.assertEqual(exp, act)
