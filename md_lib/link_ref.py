@@ -142,6 +142,12 @@ def gen_md_anchor_all(mds: [FileContainer]) -> [FileContainer]:
 
         for index, line in enumerate(md.content):
             if re.match(r"^```.*", line):
+                if not in_code_sec:
+                    if not (prev_line.isspace() or re.match(r"^```", prev_line)):
+                        raise ValueError(
+                            f"{md.filename}:{index} before {line} shall be space or ```"
+                        )
+
                 if in_code_sec:
                     in_code_sec = False
                 else:
