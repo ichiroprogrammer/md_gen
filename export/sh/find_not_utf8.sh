@@ -30,6 +30,9 @@ EXIT_CODE=0
 
 for f in $FILES
 do 
+    if [[ ! -e "$f" ]]; then
+        continue
+    fi
     encoding=$(nkf -g $f)
     if [ "$encoding" != "ASCII" -a "$encoding" != "UTF-8" ]; then
         printf "%-12s %s\n" $encoding $f
