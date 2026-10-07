@@ -19,8 +19,16 @@ def get_args(args=None):
 
     if not args.ig:
         ig = None
+    else:
+        ig = args.ig[0]
 
-    return {"md": args.md[0], "o": args.o[0], "db": args.db[0], "ig":ig, "sec_num": args.sec_num}
+    return {
+        "md": args.md[0],
+        "o": args.o[0],
+        "db": args.db[0],
+        "ig": ig,
+        "sec_num": args.sec_num,
+    }
 
 
 def gen_fc(args: dict) -> FileContainer:

@@ -354,7 +354,6 @@ class SectionDict:
         else:
             self.__ignore_list = []
 
-
     def resolve_ref(self, md: FileContainer) -> FileContainer:
         return FileContainer(md.filename, self.resolve_ref_in_content(md.content))
 
@@ -420,10 +419,9 @@ class SectionDict:
         except ValueError as e:
             name = name.rsplit("|", 1)[-1]
             if name in self.__ignore_list:
-                return name;
+                return name
             else:
                 raise
-
 
     def _sec_to_str(self, section: [str]):
         return _MD_SECTION_SEP.join(section)
