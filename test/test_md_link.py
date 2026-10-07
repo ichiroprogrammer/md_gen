@@ -7,7 +7,8 @@ from md_lib.file_container import FileContainer
 class TestMdLink(unittest.TestCase):
     def test_args(self):
         act0 = get_args("-o out in --db db.json".split(" "))
-        exp0 = {"md": "in", "o": "out", "db": "db.json", "sec_num": False}
+        exp0 = {"md": "in", "o": "out", "db": "db.json", "ig": None, "sec_num": False}
+        print(act0)
         self.assertEqual(exp0, act0)
 
     def test_gen_fc(self):

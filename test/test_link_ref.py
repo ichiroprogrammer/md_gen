@@ -344,7 +344,7 @@ class TestMdLink(unittest.TestCase):
     def test_SectionDict(self):
         db_exp = load_db(TestMdLink.__EXP_JSON)
 
-        sd = SectionDict(db_exp)
+        sd = SectionDict(db_exp, "test/data/ignore_file.txt")
 
         self.assertEqual(
             sd.section2anchor("Simple1.1"), sd.section2anchor("|Simple1.1")
@@ -399,7 +399,7 @@ class TestMdLink(unittest.TestCase):
         ]
         db_exp = load_db(TestMdLink.__EXP_JSON)
 
-        sd = SectionDict(db_exp)
+        sd = SectionDict(db_exp, "test/data/ignore_file.txt")
 
         content_act = sd.resolve_ref_in_content(content_org)
 
@@ -407,7 +407,7 @@ class TestMdLink(unittest.TestCase):
         self.assertEqual(content_act, content_exp)
 
     def test_integrate_mds(self):
-        sd = SectionDict(load_db(TestMdLink.__EXP_JSON))
+        sd = SectionDict(load_db(TestMdLink.__EXP_JSON), "test/data/ignore_file.txt")
 
         for org, res in [
             (TestMdLink.__ORG_MD1, TestMdLink.__RES_MD1),

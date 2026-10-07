@@ -345,8 +345,15 @@ def gen_md_index_md(
 
 
 class SectionDict:
-    def __init__(self, db: list):
+    def __init__(self, db: list, ignore_file: str):
         self.__section_to_anchor = self._gen_section_to_anchor(db)
+
+        if ignore_file:
+            ignore_file = FileContainer(ignore_file)
+            self.__ignore_list = [s.replace("\n", "") for s in ignore_file.content]
+        else:
+            self.__ignore_list = []
+
 
     def resolve_ref(self, md: FileContainer) -> FileContainer:
         return FileContainer(md.filename, self.resolve_ref_in_content(md.content))
@@ -401,13 +408,22 @@ class SectionDict:
 
     def _sub_ref_each(self, match_ref):
         name = match_ref.groupdict()["name"]
-        anchor = self.section2anchor(name)
-        index = name.rfind(_MD_SECTION_SEP)
 
-        if index >= 0:
-            name = name[index + 1 :]
+        try:
+            anchor = self.section2anchor(name)
+            index = name.rfind(_MD_SECTION_SEP)
 
-        return f"[{name}]({anchor})"
+            if index >= 0:
+                name = name[index + 1 :]
+
+            return f"[{name}]({anchor})"
+        except ValueError as e:
+            name = name.rsplit("|", 1)[-1]
+            if name in self.__ignore_list:
+                return name;
+            else:
+                raise
+
 
     def _sec_to_str(self, section: [str]):
         return _MD_SECTION_SEP.join(section)

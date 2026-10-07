@@ -12,16 +12,20 @@ def get_args(args=None):
     parser.add_argument("md", nargs=1)
     parser.add_argument("-o", nargs=1)
     parser.add_argument("--db", nargs=1)
+    parser.add_argument("--ig", nargs=1)
     parser.add_argument("--sec_num", action="store_true")
 
     args = parser.parse_args(args)
 
-    return {"md": args.md[0], "o": args.o[0], "db": args.db[0], "sec_num": args.sec_num}
+    if not args.ig:
+        ig = None
+
+    return {"md": args.md[0], "o": args.o[0], "db": args.db[0], "ig":ig, "sec_num": args.sec_num}
 
 
 def gen_fc(args: dict) -> FileContainer:
     md = FileContainer(args["md"])
-    sd = SectionDict(load_db(args["db"]))
+    sd = SectionDict(load_db(args["db"]), args["ig"])
 
     content = sd.resolve_ref_in_content(md.content)
 
