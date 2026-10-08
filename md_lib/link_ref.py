@@ -345,7 +345,7 @@ def gen_md_index_md(
 
 
 class SectionDict:
-    def __init__(self, db: list, ignore_file: str):
+    def __init__(self, db: list, ignore_file: str | None = None):
         self.__section_to_anchor = self._gen_section_to_anchor(db)
 
         if ignore_file:
