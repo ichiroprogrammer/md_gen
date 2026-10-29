@@ -26,6 +26,9 @@ _MD_UMCOMPLETED_REF2_RE = re.compile(r"\[(?P<name>[^\]]+)\]\(~~~\)")  # リン�
 _MD_SECTION_SEP = "|"
 
 _MD_INDEX_INJECTION_RE = re.compile(r"^<!-- index (?P<first>\d+)-(?P<exclude>\d+) -->")
+_MD_FOOTER_INJECTION_RE = re.compile(
+    r"(?P<pre_char>[^ ]+)[ ]*<!-- ss_top[ ]*(?P<separater>[^ ]+)[ ]*-->.*"
+)
 
 
 # "[file-reference](sample_code.md#xxx)"のパターンからダブルコートを削除
@@ -35,6 +38,8 @@ _REF_FILE_RE = re.compile(r'(?P<pre>.*)"(?P<LINK>\[[^\]]+\]\(---\))"(?P<post>.*)
 def inject_index(md: FileContainer, content: [str], sec_num: [bool]) -> [str]:
     ret = []
 
+    small_db = gen_md_section_db([md])
+
     for line in content:
         if match_sec := _MD_INDEX_INJECTION_RE.match(line):
             exclude = match_sec.groupdict()["exclude"]
@@ -42,6 +47,13 @@ def inject_index(md: FileContainer, content: [str], sec_num: [bool]) -> [str]:
             small_db = gen_md_section_db([md])
             index = gen_md_index_md(small_db, [], [], [f".*.md:{exclude}"], sec_num)
             ret.extend(index[int(first) :])
+
+        elif match_sec := _MD_FOOTER_INJECTION_RE.match(line):
+            pre_char = match_sec.groupdict()["pre_char"]
+            separater = match_sec.groupdict()["separater"]
+            top_recode = small_db[0]
+            top_anchor = top_recode["full_anchor"]
+            ret.append(f"{pre_char}{separater}[章の先頭]({top_anchor})\n")
 
         else:
             ret.append(line)
