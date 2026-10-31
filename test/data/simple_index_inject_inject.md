@@ -22,6 +22,7 @@
 #### Simple2.1-2-2-2 <a id="SS_1_2_2_2"></a>
 
 ---
+
 [Simple2.1-1](simple_index_inject.md#SS_1_1)  
 &emsp;[Simple2.1-1-1](simple_index_inject.md#SS_1_1_1)  
 &emsp;[Simple2.1-1-2](simple_index_inject.md#SS_1_1_2)  
@@ -34,3 +35,6 @@
   
 
 
+---
+
+フッター/[章の先頭](simple_index_inject.md#SS_1)
