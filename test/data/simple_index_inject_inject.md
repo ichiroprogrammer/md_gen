@@ -34,7 +34,10 @@
   
   
 
+章の最後/[章の先頭](simple_index_inject.md#SS_1_end)
 
 ---
 
 フッター/[章の先頭](simple_index_inject.md#SS_1)
+<a id="SS_1_end"></a>
+

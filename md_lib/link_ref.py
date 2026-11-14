@@ -30,6 +30,10 @@ _MD_FOOTER_INJECTION_RE = re.compile(
     r"(?P<pre_char>[^ ]+)[ ]*<!-- ss_top[ ]*(?P<separater>[^ ]+)[ ]*-->.*"
 )
 
+_MD_SS_END_INJECTION_RE = re.compile(
+    r"(?P<pre_char>[^ ]+)[ ]*<!-- ss_end[ ]*(?P<separater>[^ ]+)[ ]*-->.*"
+)
+
 
 # "[file-reference](sample_code.md#xxx)"のパターンからダブルコートを削除
 _REF_FILE_RE = re.compile(r'(?P<pre>.*)"(?P<LINK>\[[^\]]+\]\(---\))"(?P<post>.*)$')
@@ -39,6 +43,7 @@ def inject_index(md: FileContainer, content: [str], sec_num: [bool]) -> [str]:
     ret = []
 
     small_db = gen_md_section_db([md])
+    end_anchor = None
 
     for line in content:
         if match_sec := _MD_INDEX_INJECTION_RE.match(line):
@@ -47,6 +52,15 @@ def inject_index(md: FileContainer, content: [str], sec_num: [bool]) -> [str]:
             small_db = gen_md_section_db([md])
             index = gen_md_index_md(small_db, [], [], [f".*.md:{exclude}"], sec_num)
             ret.extend(index[int(first) :])
+
+        elif match_sec := _MD_SS_END_INJECTION_RE.match(line):
+            pre_char = match_sec.groupdict()["pre_char"]
+            separater = match_sec.groupdict()["separater"]
+
+            top_recode = small_db[0]
+            end_anchor = top_recode["anchor"] + "_end"
+            end_full_anchor = top_recode["full_anchor"] + "_end"
+            ret.append(f"{pre_char}{separater}[章の先頭]({end_full_anchor})\n")
 
         elif match_sec := _MD_FOOTER_INJECTION_RE.match(line):
             pre_char = match_sec.groupdict()["pre_char"]
@@ -57,6 +71,10 @@ def inject_index(md: FileContainer, content: [str], sec_num: [bool]) -> [str]:
 
         else:
             ret.append(line)
+
+    if end_anchor:
+        last = ['<a id="' + end_anchor + '"></a>\n', "\n"]
+        ret.extend(last)
 
     return ret
 
