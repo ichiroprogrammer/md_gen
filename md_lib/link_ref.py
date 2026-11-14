@@ -60,7 +60,7 @@ def inject_index(md: FileContainer, content: [str], sec_num: [bool]) -> [str]:
             top_recode = small_db[0]
             end_anchor = top_recode["anchor"] + "_end"
             end_full_anchor = top_recode["full_anchor"] + "_end"
-            ret.append(f"{pre_char}{separater}[章の先頭]({end_full_anchor})\n")
+            ret.append(f"{pre_char}{separater}[章の最後]({end_full_anchor})\n")
 
         elif match_sec := _MD_FOOTER_INJECTION_RE.match(line):
             pre_char = match_sec.groupdict()["pre_char"]

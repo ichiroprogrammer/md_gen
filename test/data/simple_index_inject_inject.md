@@ -34,7 +34,7 @@
   
   
 
-章の最後/[章の先頭](simple_index_inject.md#SS_1_end)
+章の最後/[章の最後](simple_index_inject.md#SS_1_end)
 
 ---
 
