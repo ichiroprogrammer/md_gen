@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import re
 
 import add_sys_path
 from md_lib.file_container import FileContainer
@@ -31,13 +32,36 @@ def get_args(args=None):
     }
 
 
+def _next_ss_anchor(db, filename) -> str:
+    pattern = re.compile(r"^SS_[0-9]+$")
+
+    ss_tops = [
+        d for d in db if isinstance(d.get("anchor"), str) and pattern.match(d["anchor"])
+    ]
+
+    index = next(
+        (i for i, d in enumerate(ss_tops) if d.get("filename") == filename), None
+    )
+
+    if not index:
+        return None
+
+    target = ss_tops[index + 1] if (index + 1) < len(ss_tops) else None
+
+    return target["full_anchor"] if target else None
+
+
 def gen_fc(args: dict) -> FileContainer:
     md = FileContainer(args["md"])
-    sd = SectionDict(load_db(args["db"]), args["ig"])
+    md_filename = args["md"].split("/")[-1]
+    db = load_db(args["db"])
+    sd = SectionDict(db, args["ig"])
 
     content = sd.resolve_ref_in_content(md.content)
 
-    new_content = inject_index(md, content, args["sec_num"])
+    next_ss_anchor = _next_ss_anchor(db, md_filename)
+
+    new_content = inject_index(md, content, args["sec_num"], next_ss_anchor)
 
     if args["sec_num"]:
         new_content = add_sec_num(new_content)

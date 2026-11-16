@@ -34,10 +34,10 @@
   
   
 
-章の最後/[章の最後](simple_index_inject.md#SS_1_end)
+章の最後/[章の最後](simple_index_inject.md#SS_1_999)
 
 ---
 
 フッター/[章の先頭](simple_index_inject.md#SS_1)
-<a id="SS_1_end"></a>
+<a id="SS_1_999"></a>
 

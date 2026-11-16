@@ -39,7 +39,9 @@ _MD_SS_END_INJECTION_RE = re.compile(
 _REF_FILE_RE = re.compile(r'(?P<pre>.*)"(?P<LINK>\[[^\]]+\]\(---\))"(?P<post>.*)$')
 
 
-def inject_index(md: FileContainer, content: [str], sec_num: [bool]) -> [str]:
+def inject_index(
+    md: FileContainer, content: [str], sec_num: [bool], next_ss_anchor: str = None
+) -> [str]:
     ret = []
 
     small_db = gen_md_section_db([md])
@@ -58,16 +60,30 @@ def inject_index(md: FileContainer, content: [str], sec_num: [bool]) -> [str]:
             separater = match_sec.groupdict()["separater"]
 
             top_recode = small_db[0]
-            end_anchor = top_recode["anchor"] + "_end"
-            end_full_anchor = top_recode["full_anchor"] + "_end"
-            ret.append(f"{pre_char}{separater}[章の最後]({end_full_anchor})\n")
+            end_anchor_suffix = "_999"
+            end_anchor = (
+                top_recode["anchor"] + end_anchor_suffix
+            )  # to_html.pyではアンカーの前提は[#S_0-9]*でなければならない
+            end_full_anchor = top_recode["full_anchor"] + end_anchor_suffix
+            new_line = f"{pre_char}{separater}[章の最後]({end_full_anchor})"
+
+            if next_ss_anchor:
+                new_line += f"{separater}[次の章]({next_ss_anchor})"
+
+            ret.append(f"{new_line}\n")
 
         elif match_sec := _MD_FOOTER_INJECTION_RE.match(line):
             pre_char = match_sec.groupdict()["pre_char"]
             separater = match_sec.groupdict()["separater"]
             top_recode = small_db[0]
             top_anchor = top_recode["full_anchor"]
-            ret.append(f"{pre_char}{separater}[章の先頭]({top_anchor})\n")
+
+            new_line = f"{pre_char}{separater}[章の先頭]({top_anchor})"
+
+            if next_ss_anchor:
+                new_line += f"{separater}[次の章]({next_ss_anchor})"
+
+            ret.append(f"{new_line}\n")
 
         else:
             ret.append(line)
